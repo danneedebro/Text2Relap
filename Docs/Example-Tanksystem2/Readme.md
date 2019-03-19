@@ -8,9 +8,6 @@
 
 ## Step 1: Add new pipe geometry
 
+## Step 2: Generate input file and review output
 
-## Step 2: Set timestep control
-
-## Step 3: Generate input file and review output
-
-## Step 4: Run calculation and look at result
+## Step 3: Run calculation and look at result
