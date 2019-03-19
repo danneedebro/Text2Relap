@@ -5,9 +5,10 @@
 
 ## Step 0: Build on tanksystem 1
 
+## Step 1: Create a new variable trip
 
-## Step 1: Add new pipe geometry
+## Step 2: Create a new include file for valve V1
 
-## Step 2: Generate input file and review output
+## Step 3: Generate input file and review output
 
-## Step 3: Run calculation and look at result
+## Step 4: Run calculation and look at result
