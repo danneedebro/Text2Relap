@@ -1,7 +1,7 @@
 # Simple tanksystem 2 - multiple flowpaths / branches
 
 ## Pipe layout
-![alt text](Tanksystem2.png "Logo Title Text 1")
+![alt text](Tanksystem1.png "Logo Title Text 1")
 
 ## Step 0: Build on tanksystem 1
 
