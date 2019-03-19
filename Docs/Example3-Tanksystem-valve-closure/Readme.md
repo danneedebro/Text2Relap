@@ -20,6 +20,5 @@ In order to get the valve to close a valid close trip must be added to the motor
 ![alt text](Create-includefile.gif "Logo Title Text 1")
 
 
-## Step 3: Generate input file and review output
-
-## Step 4: Run calculation and look at result
+## Step 3: Run calculation and look at result
+![alt text](Run-valve-closure.gif "Logo Title Text 1")
