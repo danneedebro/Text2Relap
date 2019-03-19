@@ -16,6 +16,7 @@ To include this trip one can either use the `Custom`-word and include it as a cu
 ![alt text](Add-trip.gif "Logo Title Text 1")
 
 ## Step 2: Create a new include file for valve V1
+In order to get the valve to close a valid close trip must be added to the motor valve component. This is achieved by adding **.inc** to the name of the valve. That triggers text2relap to add a so called *include file* from the specified include folder. If no file exists a generic one is created that can be altered.
 ![alt text](Create-includefile.gif "Logo Title Text 1")
 
 
