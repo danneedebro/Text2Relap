@@ -4,7 +4,7 @@
 ![alt text](Tanksystem1.png "Logo Title Text 1")
 
 ## Step 1: Add pipe geometry
-
+![alt text](Add-geometry.gif "Logo Title Text 1")
 
 ## Step 2: Set timestep control
 
