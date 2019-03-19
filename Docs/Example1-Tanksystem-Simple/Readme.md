@@ -7,6 +7,7 @@
 ![alt text](Add-geometry.gif "Logo Title Text 1")
 
 ## Step 2: Set timestep control
+![alt text](Set-timestep.gif "Logo Title Text 1")
 
 ## Step 3: Generate input file and review output
 
