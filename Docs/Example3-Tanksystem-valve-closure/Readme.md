@@ -1,4 +1,4 @@
-# Simple tanksystem 2 - multiple flowpaths / branches
+# Simple tanksystem 2 - valve closure
 
 ## Pipe layout
 ![alt text](Tanksystem1.png "Logo Title Text 1")
