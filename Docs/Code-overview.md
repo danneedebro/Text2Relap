@@ -1,9 +1,9 @@
+# Text
 
 ´´´
 Text2Relap.cls
     HydroSystem.cls
         Settings (PropertiesSettings.cls)
-            
         Components
             ComponentHydro
                 Segments
@@ -14,6 +14,5 @@ Text2Relap.cls
             ComponentCustom
             ComponentForce
             ComponentHeader
-            
-            
 ´´´
+
