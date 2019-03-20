@@ -51,3 +51,5 @@ Comment
 ## Built in functions
 
 ## Time-dependant input for certain components
+
+## Loop (elevation) check
