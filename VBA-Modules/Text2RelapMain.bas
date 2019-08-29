@@ -249,6 +249,18 @@ Sub ModelSummary()
     End If
 End Sub
 
+Private Sub TurnOffScreenUpdate(Optional TurnOff As Boolean = True)
+    If TurnOff = False Then
+        Application.Calculation = xlCalculationAutomatic
+        Application.ScreenUpdating = True
+        Application.EnableEvents = True
+    Else
+        Application.Calculation = xlCalculationManual
+        Application.ScreenUpdating = False
+        Application.EnableEvents = False
+    End If
+End Sub
+
 Sub AddPipe()
 ' Action: Adds one or more pipe segments at the rows of the selected cells
 '
@@ -265,6 +277,8 @@ Sub AddPipe()
     currRowCnt = Selection.Rows.Count
     
     Word1 = Cells(CurrRow, 1)
+    
+    TurnOffScreenUpdate True
     
     If Word1 = "Pipe" Then
         question = MsgBox("Insert " & CStr(currRowCnt) & " pipe segments BELOW row " + CStr(CurrRow) + " with the same properties as '" & _
@@ -284,6 +298,7 @@ Sub AddPipe()
         If question <> vbYes Then
             Exit Sub
         End If
+        
         Range(Cells(CurrRow, 1), Cells(CurrRow + currRowCnt - 1, 1)) = "Pipe"
         Range(Cells(CurrRow, 2), Cells(CurrRow + currRowCnt - 1, 2)).Formula = "=CONCATENATE(""PIPE_"",ROW())"
         Range(Cells(CurrRow, 4), Cells(CurrRow + currRowCnt - 1, 4)).Formula = "=dx"
@@ -293,6 +308,8 @@ Sub AddPipe()
         Range(Cells(CurrRow, 17), Cells(CurrRow + currRowCnt - 1, 17)).Formula = "=roughness"
         Range(Cells(CurrRow, 18), Cells(CurrRow + currRowCnt - 1, 22)) = "-"
     End If
+
+    TurnOffScreenUpdate False
 
 End Sub
 
@@ -512,6 +529,7 @@ Sub AddTripVariable()
         End If
     End If
     
+    TurnOffScreenUpdate True
     Range(Cells(CurrRow, 1), Cells(CurrRow, 1)) = "TripVar"
     Range(Cells(CurrRow, 2), Cells(CurrRow, 2)).Formula = "=CONCATENATE(""TRIP_"",ROW())"
     Range(Cells(CurrRow, 3), Cells(CurrRow, 3)) = "<ID>"
@@ -521,11 +539,12 @@ Sub AddTripVariable()
     Range(Cells(CurrRow, 7), Cells(CurrRow, 7)) = "null-0"
     Range(Cells(CurrRow, 8), Cells(CurrRow, 8)) = 0#
     Range(Cells(CurrRow, 9), Cells(CurrRow, 9)) = "n"
+    TurnOffScreenUpdate False
 
 End Sub
 
 Sub AddTripLogical()
-' Action: Adds a variable trip
+' Action: Adds a logical trip
 '
     Dim CurrRow As Integer, currRowCnt As Integer, Word1 As String
     Dim question
@@ -546,12 +565,16 @@ Sub AddTripLogical()
         End If
     End If
     
+    TurnOffScreenUpdate True
+    
     Range(Cells(CurrRow, 1), Cells(CurrRow, 1)) = "TripLog"
     Range(Cells(CurrRow, 2), Cells(CurrRow, 2)).Formula = "=CONCATENATE(""TRIP_"",ROW())"
     Range(Cells(CurrRow, 3), Cells(CurrRow, 3)) = "<TRIP-ID1>"
     Range(Cells(CurrRow, 4), Cells(CurrRow, 4)) = "ge"
     Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = "<TRIP-ID2>"
     Range(Cells(CurrRow, 6), Cells(CurrRow, 6)) = "n"
+    
+    TurnOffScreenUpdate False
 
 End Sub
 
