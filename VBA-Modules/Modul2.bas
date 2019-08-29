@@ -7,7 +7,9 @@ Function Lista() As Variant
     Result(2) = "DÅ"
     Result(3) = "GE"
 
-
+    Dim s As New ResourceSprintf
+    
+    Debug.Print s.sprintf("%#7.3g", 100)
 
 End Function
 

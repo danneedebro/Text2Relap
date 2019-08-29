@@ -199,7 +199,7 @@ Public Function ReplaceTrips(ByVal InputString As String) As String
         
         ' Parse out trip ID
         TripId = Mid(InputString, pos1 + Len(LookFor), pos2 - pos1 - Len(LookFor))
-        MsgBox TripId
+        
         ' Fetch tripnumber for trip with id "TripId"
         On Error GoTo TripIdNotFound
         Set CurrTrip = Trip(TripId)
