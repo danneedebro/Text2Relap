@@ -570,7 +570,7 @@ Sub AddTripLogical()
     Range(Cells(CurrRow, 1), Cells(CurrRow, 1)) = "TripLog"
     Range(Cells(CurrRow, 2), Cells(CurrRow, 2)).Formula = "=CONCATENATE(""TRIP_"",ROW())"
     Range(Cells(CurrRow, 3), Cells(CurrRow, 3)) = "<TRIP-ID1>"
-    Range(Cells(CurrRow, 4), Cells(CurrRow, 4)) = "ge"
+    Range(Cells(CurrRow, 4), Cells(CurrRow, 4)) = "and"
     Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = "<TRIP-ID2>"
     Range(Cells(CurrRow, 6), Cells(CurrRow, 6)) = "n"
     
