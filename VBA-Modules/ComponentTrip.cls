@@ -184,7 +184,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
                 Plotnums(i) = Replace(Plotnums(i), "CCC", CStr(CurrCCC))
                 
             Next i
-            ts.WriteLine s.sprintf("%s  %8s  %9s  %2s  %8s  %9s  %7.3g  %s", TripStr, Plotvars(1), Plotnums(1), Operator, Plotvars(2), Plotnums(2), AdditiveConstant, Latch)
+            ts.WriteLine s.sprintf("%s  %8s  %9s  %2s  %8s  %9s  %#7.3g  %s", TripStr, Plotvars(1), Plotnums(1), Operator, Plotvars(2), Plotnums(2), AdditiveConstant, Latch)
             ts.WriteLine ""
         
         Case 2 ' Logical trip
