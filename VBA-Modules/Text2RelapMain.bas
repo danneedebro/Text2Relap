@@ -18,7 +18,7 @@ Public Const TESTMATRIX_VARIABLE_VALUES = "TestMatrixVariableValues"
 
 
 Private Type TFileWriteStatus
-    Message As String
+    message As String
     FileWritten As Boolean
     Warnings As Boolean
     Abort As Boolean
@@ -92,7 +92,7 @@ Sub CreateInputFiles()
     
     Dim ResultString As String
     For i = LoadCase1 To LoadCase2
-        ResultString = ResultString & "Case index: " & CStr(i) & vbNewLine & FileWriteStatus(i).Message & vbNewLine & vbNewLine
+        ResultString = ResultString & "Case index: " & CStr(i) & vbNewLine & FileWriteStatus(i).message & vbNewLine & vbNewLine
     Next i
     MsgBox ResultString
 End Sub
@@ -127,16 +127,16 @@ Function ReadInputAndWriteToFile(ByVal Filename As String) As TFileWriteStatus
         If Inputdeck.WriteToFile(InputFile.FullPath) = True Then
             Result.FileWritten = True
             If Inputdeck.Warnings = False Then
-                Result.Message = "Info: " & InputFile.FullPath & " created successfully"
+                Result.message = "Info: " & InputFile.FullPath & " created successfully"
                 Result.Warnings = False
             Else
-                Result.Message = "Warning: " & InputFile.FullPath & " created with warnings"
+                Result.message = "Warning: " & InputFile.FullPath & " created with warnings"
                 Result.Warnings = True
             End If
         Else
             Result.FileWritten = False
             Result.Warnings = True
-            Result.Message = "Error: " & InputFile.FullPath & " NOT created successfully"
+            Result.message = "Error: " & InputFile.FullPath & " NOT created successfully"
         End If
     Else
         Result.FileWritten = False
@@ -159,8 +159,8 @@ Attribute ProbeOutput.VB_ProcData.VB_Invoke_Func = "I\n14"
     If TypeName(Selection) = "Range" Then
         Set SelectedRange = Selection
         With SelectedRange
-            Row1 = .Rows(1).row
-            Row2 = .Rows(.Rows.Count).row
+            Row1 = .Rows(1).Row
+            Row2 = .Rows(.Rows.Count).Row
         End With
 
         Dim Inputdeck As Text2Relap

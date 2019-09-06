@@ -83,7 +83,7 @@ Public Sub Add(ByVal Item As R5Component, ByRef inputRows() As Variant, ByVal So
     
     Exit Sub
 ErrorHandler:
-    If err.Number = 457 Then
+    If Err.Number = 457 Then
         HydroSystem.Inputdeck.HighlightCurrentLines
         Dim answ
         
@@ -92,7 +92,7 @@ ErrorHandler:
         HydroSystem.Inputdeck.Abort = True
         Exit Sub
     Else
-        err.Raise err.Number, TypeName(Me) & ".Add, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+        Err.Raise Err.Number, TypeName(Me) & ".Add, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     End If
 End Sub
 
@@ -142,7 +142,7 @@ Next_i:
     
     Exit Function
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".FindID, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".FindID, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Function
 '
 '

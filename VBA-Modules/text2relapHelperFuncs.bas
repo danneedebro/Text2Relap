@@ -233,6 +233,6 @@ Sub LastRow()
 
 With ActiveSheet
 
-MsgBox .Range(.Cells(1, 1), .Cells(1, 22)).End(xlDown).row
+MsgBox .Range(.Cells(1, 1), .Cells(1, 22)).End(xlDown).Row
 End With
 End Sub

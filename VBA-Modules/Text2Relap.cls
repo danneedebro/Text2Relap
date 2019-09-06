@@ -36,7 +36,7 @@ Attribute VB_Exposed = False
 Option Explicit
 '
 ' MEMBER VARIABLES
-Private Const DEBUG_ME As Boolean = False
+Private Const DEBUG_ME As Boolean = True
 Private Const DEFAULT_INPUT_WORKSHEET As String = "text2relap"
 Private Const DEFAULT_INPUT_RANGE_LASTROW As Integer = 1000
 
@@ -64,7 +64,7 @@ Private Type FConds
     WordsColor(1 To 22) As Boolean
     WordsGrey(1 To 22) As Boolean
     ColorColor As Long
-    ColorGrey As Long
+    colorGrey As Long
     NumberOfWords As Integer
 End Type
 
@@ -162,11 +162,11 @@ Public Sub Create(Optional ByVal InputWorksheet As String = "", Optional ByVal L
 ErrorHandler:
     Dim answ
     Me.HighlightCurrentLines
-    err.Source = TypeName(Me) & ".Init, " & err.Source
+    Err.Source = TypeName(Me) & ".Init, " & Err.Source
     
-    answ = MsgBox("Unexpected error in """ & err.Source & """" & vbNewLine & vbNewLine & "Number: " & err.Number & vbNewLine & "Description: " & err.Description & vbNewLine & vbNewLine & "Continue reading input?", vbCritical + vbYesNo)
+    answ = MsgBox("Unexpected error in """ & Err.Source & """" & vbNewLine & vbNewLine & "Number: " & Err.Number & vbNewLine & "Description: " & Err.Description & vbNewLine & vbNewLine & "Continue reading input?", vbCritical + vbYesNo)
     If answ = vbNo Then
-        err.Raise err.Number, err.Source, err.Description, err.HelpFile, err.HelpContext
+        Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     Else
         Resume Next
     End If
@@ -317,11 +317,11 @@ Next_i:
 ErrorHandler:
     Dim answ
     Me.HighlightCurrentLines
-    err.Source = TypeName(Me) & ".ReadInput(line=" & currLine1 & "), " & err.Source
+    Err.Source = TypeName(Me) & ".ReadInput(line=" & currLine1 & "), " & Err.Source
     
-    answ = MsgBox("Unexpected error in """ & err.Source & """" & vbNewLine & vbNewLine & "Number: " & err.Number & vbNewLine & "Description: " & err.Description & vbNewLine & vbNewLine & "Continue reading input?", vbCritical + vbYesNo)
+    answ = MsgBox("Unexpected error in """ & Err.Source & """" & vbNewLine & vbNewLine & "Number: " & Err.Number & vbNewLine & "Description: " & Err.Description & vbNewLine & vbNewLine & "Continue reading input?", vbCritical + vbYesNo)
     If answ = vbNo Then
-        err.Raise err.Number, err.Source, err.Description, err.HelpFile, err.HelpContext
+        Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     Else
         Resume Next
     End If
@@ -390,7 +390,7 @@ Public Function CheckInput(ByVal Value As Variant, ByVal Numeric As Boolean, ByV
             Me.Warnings = True
             answ = MsgBox("Input error: """ & FieldName & """-value is empty or wrong format. Setting default value " & CStr(valueDefault) & vbNewLine & vbNewLine & "Continue?", vbExclamation + vbOKCancel, "Input error")
             If answ = vbCancel Then
-                err.Raise 0, "", "Input error: """ & FieldName & """-value is empty or wrong format."
+                Err.Raise 0, "", "Input error: """ & FieldName & """-value is empty or wrong format."
                 Me.Abort = True
             End If
         End If
@@ -398,124 +398,36 @@ Public Function CheckInput(ByVal Value As Variant, ByVal Numeric As Boolean, ByV
     
     Exit Function
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".CheckInput(Value:='" & Value & "'), " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".CheckInput(Value:='" & Value & "'), " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 
 End Function
 
 Public Sub HighlightCurrentLines(Optional ByVal word As Integer = -1, Optional ByVal SelectRow As Integer = -1)
 ' Action: Higlights a certain row
 '
-    Dim FirstRow As Integer, LastRow As Integer
+    Dim firstRow As Integer, LastRow As Integer
     
     If SelectRow = -1 Then
-        FirstRow = currLine1
+        firstRow = currLine1
         LastRow = currLine2
     Else
-        FirstRow = SelectRow
+        firstRow = SelectRow
         LastRow = SelectRow
     End If
     
 
     Debug.Print "Hello"
     If word = -1 Or word > InputRange.Columns.Count Then
-        Range(InputRange.Rows(FirstRow), InputRange.Rows(LastRow)).Select
+        Range(InputRange.Rows(firstRow), InputRange.Rows(LastRow)).Select
     Else
         If currLine2 > currLine1 Then
-            Range(InputRange.Rows(FirstRow), InputRange.Rows(LastRow)).Columns(word).Select
+            Range(InputRange.Rows(firstRow), InputRange.Rows(LastRow)).Columns(word).Select
         Else
-            InputRange.Rows(FirstRow).Columns(word).Select
+            InputRange.Rows(firstRow).Columns(word).Select
         End If
     End If
 End Sub
 
-Private Sub AddFCondInput(ByVal Word1 As String, ByVal ColorColor As Long, ByVal ColorGrey As Long, ByVal GreyIsDefault As Boolean, _
-                          ByVal NumberOfWords As Integer, ParamArray ColoredWords() As Variant)
-    Dim i As Integer
-    Dim CurrentWord As Integer
-    Dim NewFCond As FConds
-    NewFCond.Word1 = Word1
-    NewFCond.ColorColor = ColorColor
-    NewFCond.ColorGrey = ColorGrey
-    NewFCond.NumberOfWords = NumberOfWords
-    
-    If GreyIsDefault = True Then
-        For i = LBound(NewFCond.WordsGrey) To UBound(NewFCond.WordsGrey)
-            NewFCond.WordsGrey(i) = True
-        Next i
-    End If
-    
-    For i = LBound(ColoredWords) To UBound(ColoredWords)
-        CurrentWord = ColoredWords(i)
-        NewFCond.WordsColor(CurrentWord) = True
-        NewFCond.WordsGrey(CurrentWord) = False
-    Next i
-    
-    Dim maxInd As Integer
-    maxInd = UBound(pFCondInput) + 1
-    ReDim Preserve pFCondInput(maxInd)
-    pFCondInput(maxInd) = NewFCond
-End Sub
-
-Public Sub ResetFormatConditions()
-' Action: Resets the format conditions on the input range
-'
-    ' Delete current format conditions on inputRange
-    InputRange.FormatConditions.Delete
-    
-    Dim ColorPipe As Long, ColorJunction As Long, ColorVolume As Long, ColorGrey As Long, ColorMisc As Long, ColorTrip As Long
-    ColorPipe = RGB(204, 255, 204)      ' Mint green
-    ColorJunction = RGB(204, 255, 255)  ' Light blue
-    ColorVolume = RGB(255, 255, 153)    ' Light yellow
-    ColorGrey = RGB(192, 192, 192)      ' Light grey
-    ColorMisc = RGB(149, 179, 215)      ' Light blue
-    ColorTrip = RGB(255, 217, 179)      ' Light blue
-    ColorMisc = RGB(255, 255, 204)      ' Ivory
-    
-    ReDim pFCondInput(0)
-    AddFCondInput "Pipe", ColorPipe, ColorGrey, True, 22, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 17, 21, 22
-    AddFCondInput "Junction", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 21, 22
-    AddFCondInput "Sngljun", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 21, 22
-    AddFCondInput "Mtrvlv", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 20, 21, 22
-    AddFCondInput "Srvvlv", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 20, 21, 22
-    AddFCondInput "Chkvlv", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 20, 21, 22
-    AddFCondInput "Inrvlv", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 20, 21, 22
-    AddFCondInput "Tmdpjun", ColorJunction, ColorGrey, True, 22, 1, 2, 5, 8, 9, 10, 11, 13, 14, 15, 16, 20, 21, 22
-    AddFCondInput "Pump", ColorJunction, ColorGrey, True, 22, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 22
-    AddFCondInput "Tmdpvol", ColorVolume, ColorGrey, True, 22, 1, 2, 3, 5, 6, 7, 10, 11, 17, 18, 21, 22
-    AddFCondInput "Snglvol", ColorVolume, ColorGrey, True, 22, 1, 2, 3, 5, 6, 7, 10, 11, 21, 22
-    AddFCondInput "Relapnr", ColorMisc, ColorGrey, False, 22, 1, 2
-    AddFCondInput "Init", ColorMisc, ColorGrey, False, 22, 1, 2, 3
-    AddFCondInput "InitGas", ColorMisc, ColorGrey, False, 22, 1, 2, 3
-    AddFCondInput "Timestep", ColorMisc, ColorGrey, False, 22, 1, 2, 3, 4, 5
-    AddFCondInput "Replacements", ColorMisc, ColorGrey, False, 2, 1, 2
-    AddFCondInput "Triggerwords", ColorMisc, ColorGrey, False, 2, 1, 2
-    AddFCondInput "Custom", ColorVolume, ColorGrey, False, 2, 1, 2
-    AddFCondInput "Tripvar", ColorTrip, ColorGrey, True, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9
-    AddFCondInput "Triplog", ColorTrip, ColorGrey, True, 6, 1, 2, 3, 4, 5, 6
-    
-    ' Loop through every recognized word and
-    Dim i As Integer, j As Integer
-    Dim SubRange As Range
-    For i = 1 To UBound(pFCondInput)
-        For j = 1 To pFCondInput(i).NumberOfWords
-            Set SubRange = InputRange.Columns(j)
-            
-            If pFCondInput(i).WordsColor(j) = True Or pFCondInput(i).WordsGrey(j) = True Then
-                SubRange.FormatConditions.Add Type:=xlExpression, Formula1:="=$A1=""" & pFCondInput(i).Word1 & """"
-                With SubRange.FormatConditions(SubRange.FormatConditions.Count)
-                    If pFCondInput(i).WordsColor(j) = True Then
-                        .Interior.Color = pFCondInput(i).ColorColor
-                    ElseIf pFCondInput(i).WordsGrey(j) = True Then
-                        .Interior.Color = pFCondInput(i).ColorGrey
-                        .Font.Color = 8421504
-                    End If
-                End With
-                SubRange.FormatConditions(SubRange.FormatConditions.Count).StopIfTrue = True
-            End If
-        Next j
-    Next i
-
-End Sub
 
 Public Function WriteToFile(ByVal Filename As String) As Boolean
 ' Action: Writes the input file to file
@@ -546,6 +458,10 @@ Public Function WriteToFile(ByVal Filename As String) As Boolean
         
         ' Debug
         If DEBUG_ME = True Then Debug.Print "Writing component " & CStr(i) & " out of " & CStr(HydroSystem.Components.Count) & ": " & HydroSystem.Components(i).ComponentInfo
+        
+        If i = 1 And DEBUG_ME = True Then
+            Debug.Print "Break point here"
+        End If
         
         HydroSystem.Components(i).WriteToFile ts, WriteComments
         If WriteComments = False Then ts.WriteLine ""
@@ -580,25 +496,25 @@ Next_i:
     
     Exit Function
 ErrorHandler_1: ' Error during creation of textstream object
-    err.Source = TypeName(Me) & ".WriteToFile [Error creating FileObject] , " & err.Source
+    Err.Source = TypeName(Me) & ".WriteToFile [Error creating FileObject] , " & Err.Source
     GoTo ErrorHandler
 ErrorHandler_2: ' Error during writing files
-    err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='" & HydroSystem.Components(i).ObjectType & "', " & err.Source
+    Err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='" & HydroSystem.Components(i).ObjectType & "', " & Err.Source
     GoTo ErrorHandler
 ErrorHandler_3:
-    err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='F" & CurrForce.ForceNumber & "', " & err.Source
+    Err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='F" & CurrForce.ForceNumber & "', " & Err.Source
     GoTo ErrorHandler
     
 ErrorHandler:
     Dim answ
-    answ = MsgBox("Unexpected error in """ & err.Source & """" & vbNewLine & vbNewLine & "Number: " & err.Number & vbNewLine & "Description: " & err.Description & vbNewLine & vbNewLine & "Continue writing to file?", vbCritical + vbYesNo, "Error writing to file")
+    answ = MsgBox("Unexpected error in """ & Err.Source & """" & vbNewLine & vbNewLine & "Number: " & Err.Number & vbNewLine & "Description: " & Err.Description & vbNewLine & vbNewLine & "Continue writing to file?", vbCritical + vbYesNo, "Error writing to file")
     If answ = vbNo Then
-        err.Raise err.Number, err.Source, err.Description, err.HelpFile, err.HelpContext
+        Err.Raise Err.Number, Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     Else
         Resume Next
     End If
     MsgBox ""
-    err.Raise err.Number, TypeName(Me) & ".WriteToFile(Filename:='" & Filename & "'), " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteToFile(Filename:='" & Filename & "'), " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     
 End Function
 
@@ -791,12 +707,12 @@ Private Function RangeToArray(ByRef MainRange As Range, StartRow As Integer, End
 '
 ' Output:   A variant with as many columns as 'MainRange'
 '
-    Dim SubRange As Range
+    Dim subRange As Range
     Dim arr() As Variant
     With MainRange
-        Set SubRange = .Range(.Cells(StartRow, 1), .Cells(EndRow, .Columns.Count))
+        Set subRange = .Range(.Cells(StartRow, 1), .Cells(EndRow, .Columns.Count))
     End With
-    arr = SubRange
+    arr = subRange
     RangeToArray = arr
 End Function
 

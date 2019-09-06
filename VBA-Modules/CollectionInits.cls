@@ -52,7 +52,7 @@ Public Sub Add(ByRef inputRows() As Variant)
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".Add, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".Add, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Function Item(index As Variant) As PropertiesHydroCompInit
@@ -94,7 +94,7 @@ Next_j:
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".AssignValues, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".AssignValues, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 '
 '
