@@ -109,7 +109,7 @@ Public Sub CreateFolders()
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".CreateFolders, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".CreateFolders, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Function getRelativePath(currPath) As String

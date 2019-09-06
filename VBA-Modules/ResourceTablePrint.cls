@@ -228,8 +228,9 @@ Public Function WriteLine(ByVal InputString As String, ParamArray Args() As Vari
     Dim s As New ResourceSprintf
     Dim IndirectArray As Boolean
     Dim LBnd As Integer, UBnd As Integer
-    
-    If IsMissing(Args) = True Then
+
+    On Error GoTo LastLine
+    If IsMissing(Args) Then
         GoTo LastLine
     ElseIf VarType(Args) = vbArray + vbVariant Then
         If IsMissing(Args(0)) = True Then GoTo LastLine

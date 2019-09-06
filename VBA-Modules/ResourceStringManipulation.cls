@@ -29,7 +29,7 @@ Public Function ParseBrackedExpression(ByVal InputString As String, Numeric As B
     Dim WrongFormat As Boolean, NotAMultipleOfTwo As Boolean, NoBrackets As Boolean
     Dim TimeVectorNotIncresing As Boolean, YValueGreaterThanOne As Boolean
     
-    Dim Output(0 To 2) As Variant
+    Dim output(0 To 2) As Variant
     Dim XValues() As Variant
     Dim YValues() As Variant
     
@@ -87,20 +87,20 @@ Public Function ParseBrackedExpression(ByVal InputString As String, Numeric As B
     
     
     ' Set error / info codes
-    Output(0) = 0
-    If NoBrackets = True Then Output(0) = Output(0) + BinToInt("1")  ' Not a bracked expression
-    If NotAMultipleOfTwo = True Then Output(0) = Output(0) + BinToInt("10")  ' Not a multiple of two
-    If WrongFormat = True Then Output(0) = Output(0) + BinToInt("100")  ' Wrong format (string if supposed to be numeric)
-    If YValueGreaterThanOne = True Then Output(0) = Output(0) + BinToInt("1000")  ' Wrong format (string if supposed to be numeric)
-    If TimeVectorNotIncresing = True Then Output(0) = Output(0) + BinToInt("10000")  ' Time vector not increasing
+    output(0) = 0
+    If NoBrackets = True Then output(0) = output(0) + BinToInt("1")  ' Not a bracked expression
+    If NotAMultipleOfTwo = True Then output(0) = output(0) + BinToInt("10")  ' Not a multiple of two
+    If WrongFormat = True Then output(0) = output(0) + BinToInt("100")  ' Wrong format (string if supposed to be numeric)
+    If YValueGreaterThanOne = True Then output(0) = output(0) + BinToInt("1000")  ' Wrong format (string if supposed to be numeric)
+    If TimeVectorNotIncresing = True Then output(0) = output(0) + BinToInt("10000")  ' Time vector not increasing
     
-    Output(1) = XValues
-    Output(2) = YValues
-    ParseBrackedExpression = Output
+    output(1) = XValues
+    output(2) = YValues
+    ParseBrackedExpression = output
 
     Exit Function
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".ParseBrackedExpression(""" & InputString & """), " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".ParseBrackedExpression(""" & InputString & """), " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Function
 
 Public Function MergeTwoSets(Time1 As Variant, Y1 As Variant, Time2 As Variant, Y2 As Variant) As Variant

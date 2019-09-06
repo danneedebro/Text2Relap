@@ -21,3 +21,10 @@ Attribute Makro5.VB_ProcData.VB_Invoke_Func = " \n14"
         .ShowError = True
     End With
 End Sub
+
+
+Sub debuggg()
+Dim t As New ResourceTablePrint
+    t.SetDefaultValues
+    t.AddLine "*"
+End Sub

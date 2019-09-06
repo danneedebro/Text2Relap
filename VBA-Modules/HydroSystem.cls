@@ -48,7 +48,7 @@ Public Property Get Force(ByVal ForceId As String) As ComponentForce
     Set Force = pComponents(ForceId)
     Exit Property
 ErrorHandler:
-    If err.Number = 5 And firstError = True Then
+    If Err.Number = 5 And firstError = True Then
         firstError = False
         Dim NewForce As New ComponentForce
         NewForce.Create Me
@@ -76,7 +76,7 @@ Public Sub Create(ByRef CallingInputDeck As Text2Relap)
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".Create, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".Create, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Sub DoPreRead()
@@ -116,7 +116,7 @@ Public Sub DoPreRead()
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".DoPreRead, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".DoPreRead, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Sub DoPostRead()
@@ -142,7 +142,7 @@ Public Sub DoPostRead()
         
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".DoPostRead, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".DoPostRead, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 '
 '
@@ -265,7 +265,7 @@ ExitLoops:
     
     Exit Function
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".FindSegment, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".FindSegment, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Function
 
 Public Sub MakeConnections()
@@ -310,7 +310,7 @@ nextIteration_i:
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".MakeConnections(Comp=" & CStr(i) & "), " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".MakeConnections(Comp=" & CStr(i) & "), " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 

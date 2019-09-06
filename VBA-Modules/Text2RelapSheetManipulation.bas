@@ -1,14 +1,254 @@
 Attribute VB_Name = "Text2RelapSheetManipulation"
 Option Explicit
 
+Public Type FCond
+    Formula As String
+    Column1 As Collection
+    Column2 As Collection
+    Color As Long
+    BorderUp As Boolean
+    BorderDown As Boolean
+    BorderLeft As Boolean
+    BorderRight As Boolean
+    IsBold As Boolean
+    IsItalic As Boolean
+    NumberFormat As String
+    FontColor As Long
+End Type
 
-Sub ResetCondFormatting()
-' Action: Resets the format conditions for the sheet
+Sub ResetFormat()
+' Action: Resets the format conditions
 '
-    Dim Inputdeck As Text2Relap
-    Set Inputdeck = NewInputdeck(ActiveSheet.Name)
-    Inputdeck.ResetFormatConditions
+'
+    Dim i As Integer, j As Integer
+
+    Dim colorPipe As Long, colorJunction As Long, colorVolume As Long, colorGrey As Long, colorMisc As Long, colorTrip As Long
+    colorPipe = RGB(204, 255, 204)      ' Mint green
+    colorJunction = RGB(204, 255, 255)  ' Light blue
+    colorVolume = RGB(255, 255, 153)    ' Light yellow
+    colorGrey = RGB(192, 192, 192)      ' Light grey
+    colorMisc = RGB(149, 179, 215)      ' Light blue
+    colorTrip = RGB(255, 217, 179)      ' Light blue
+    colorMisc = RGB(255, 255, 204)      ' Ivory
+
+
+    ' Define range
+    Dim myRange As Range, subRange As Range
+    Dim myRangeAddress As String
+    Dim s As New ResourceSprintf
+    Set myRange = Range(Cells(Selection.Rows(1).Row, 1), Cells(Selection.Rows(1).Row + Selection.Rows.Count, 22))
+    
+    ' Returns the address of the first word. Used in formulas
+    Dim firstRow As Long
+    firstRow = myRange(1).Row
+    
+    myRange.FormatConditions.Delete
+    'myRange.Interior.Pattern = xlNone
+    
+    Dim formatProperties() As FCond
+    ReDim formatProperties(18)
+    Dim formulaCurr As String
+
+    ' PIPE
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pipe""", firstRow))
+    i = 0
+    formatProperties(i) = AddFConditions("", Array(1, 17, 21), Array(12, 17, 22), colorPipe)
+    formatProperties(i).Formula = formulaCurr
+    
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(13, 18), Array(16, 20), colorGrey)
+    formatProperties(i).Formula = formulaCurr
+    
+    ' TMDPVOL
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tmdpvol""", firstRow))
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1, 5, 10, 17, 21), Array(3, 7, 11, 18, 22), colorVolume)
+    formatProperties(i).Formula = formulaCurr
+    
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(4, 8, 12, 19), Array(4, 9, 16, 20), colorGrey)
+    formatProperties(i).Formula = formulaCurr
+    
+    ' SNGLVOL
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Snglvol""", firstRow))
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1, 5, 10, 17, 21), Array(3, 7, 11, 18, 22), colorVolume)
+    formatProperties(i).Formula = formulaCurr
+    
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(4, 8, 12), Array(4, 9, 20), colorGrey)
+    formatProperties(i).Formula = formulaCurr
+    
+    ' SNGLJUN or JUNCTION
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Sngljun"",$A%1$d=""Junction"")", firstRow))
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1, 5, 8, 13, 21), Array(2, 5, 11, 16, 22), colorJunction)
+    formatProperties(i).Formula = formulaCurr
+    
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(3, 6, 12, 17), Array(4, 7, 12, 20), colorGrey)
+    formatProperties(i).Formula = formulaCurr
+    
+    ' MTRVLV or SRVVLV or CHKVLV or TRPVLV or TMDPJUN pr INRVLV
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Mtrvlv"",$A%1$d=""Srvvlv"",$A%1$d=""Trpvlv"",$A%1$d=""Chkvlv"",$A%1$d=""Inrvlv"",$A%1$d=""Tmdpjun"")", firstRow))
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1, 5, 8, 13, 20), Array(2, 5, 11, 16, 22), colorJunction)
+    formatProperties(i).Formula = formulaCurr
+    
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(3, 6, 12, 17), Array(4, 7, 12, 19), colorGrey)
+    formatProperties(i).Formula = formulaCurr
+    
+    ' PUMP
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pump""", firstRow))
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1, 5, 8, 13, 18), Array(2, 5, 11, 16, 22), colorJunction)
+    formatProperties(i).Formula = formulaCurr
+    
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(3, 6, 12, 17), Array(4, 7, 12, 17), colorGrey)
+    formatProperties(i).Formula = formulaCurr
+    
+    ' Relapnr
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(2), colorMisc)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Relapnr""", firstRow))
+    
+    ' Init or InitGas
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(3), colorMisc)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Init"",$A%1$d=""InitGas"")", firstRow))
+    
+    ' Timestep
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(5), colorMisc)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Timestep""", firstRow))
+    
+    ' Replacements or triggerwords
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(2), colorMisc)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Replacements"",$A%1$d=""Triggerwords"")", firstRow))
+    
+    ' Custom
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(2), colorMisc)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Custom""", firstRow))
+    
+    ' Tripvar
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(9), colorTrip)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tripvar""", firstRow))
+    
+    ' Tripvar
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(1), Array(6), colorTrip)
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Triplog""", firstRow))
+        
+       
+        
+    ReDim Preserve formatProperties(i)
+    
+    ToggleAutoCalc False
+    
+    Dim subRangeAddress As String
+    For i = LBound(formatProperties) To UBound(formatProperties)
+        For j = 1 To formatProperties(i).Column1.Count
+            subRangeAddress = Range(myRange.Cells(1, formatProperties(i).Column1(j)), myRange.Cells(myRange.Rows.Count, formatProperties(i).Column2(j))).Address
+            Set subRange = Range(subRangeAddress)
+            
+            With subRange
+                .FormatConditions.Add Type:=xlExpression, Formula1:=formatProperties(i).Formula
+                
+                With .FormatConditions(.FormatConditions.Count)
+                    .SetFirstPriority
+                    If formatProperties(i).Color <> 0 Then .Interior.Color = formatProperties(i).Color
+                    .StopIfTrue = False
+                    If formatProperties(i).FontColor <> 0 Then .Font.Color = formatProperties(i).FontColor
+                    If formatProperties(i).IsItalic = True Then .Font.Italic = True
+                End With
+            End With
+nextIteration:
+        Next j
+    Next i
+    
+    ToggleAutoCalc True
+    
 End Sub
+
+Private Sub ToggleAutoCalc(Optional TurnOn As Boolean = True)
+    If TurnOn = True Then
+        Application.Calculation = xlCalculationAutomatic
+        Application.ScreenUpdating = True
+        Application.EnableEvents = True
+    Else
+        Application.Calculation = xlCalculationManual
+        Application.ScreenUpdating = False
+        Application.EnableEvents = False
+    End If
+End Sub
+
+Private Function ConvertToLocalFormula(formulaToConvert As String, _
+                                          Optional notationToUse As XlReferenceStyle = xlA1, _
+                                          Optional ByVal cellID As String = "AD1") As String
+                                          
+' Action: Converts to local formula
+    On Error GoTo ErrorHandler
+    
+    Dim tempCell As Range
+    Set tempCell = Range(cellID)
+    
+    If notationToUse = xlR1C1 Then
+        tempCell.FormulaR1C1 = formulaToConvert
+        ConvertToLocalFormula = tempCell.FormulaR1C1Local
+    Else
+        tempCell.Formula = formulaToConvert
+        ConvertToLocalFormula = tempCell.FormulaLocal
+    End If
+    tempCell.Value = ""
+    
+    Exit Function
+ErrorHandler:
+    Dim message As String
+    message = "Error " & Err.Number & ": """ & Err.Description & """" & vbNewLine
+    
+    Select Case Err.Number
+        Case 1004
+            message = message & "Check formula: """ & formulaToConvert & """"
+    Case Else
+            
+    End Select
+    MsgBox message
+End Function
+
+Private Function AddFConditions(Formula As String, Col1 As Variant, Col2 As Variant, Optional Color As Long = 0, _
+                        Optional IsBold As Boolean = False, Optional IsItalic As Boolean = False, _
+                        Optional FontColor As Long = 0, Optional BTop As Boolean = False, _
+                        Optional BDown As Boolean = False, Optional BLeft As Boolean = False, _
+                        Optional BRight As Boolean = False, Optional NumberFormat As String = "General") As FCond
+    Dim output As FCond
+    Dim i As Integer
+    output.Formula = Formula
+    Set output.Column1 = New Collection
+    Set output.Column2 = New Collection
+    
+    For i = LBound(Col1) To UBound(Col1)
+        output.Column1.Add Col1(i)
+    Next i
+    For i = LBound(Col2) To UBound(Col2)
+        output.Column2.Add Col2(i)
+    Next i
+    
+    output.Color = Color
+    output.BorderUp = BTop
+    output.BorderDown = BDown
+    output.BorderLeft = BLeft
+    output.BorderRight = BRight
+    output.NumberFormat = NumberFormat
+    output.FontColor = FontColor
+    output.IsBold = IsBold
+    output.IsItalic = IsItalic
+    AddFConditions = output
+End Function
 
 
 Private Sub TurnOffScreenUpdate(Optional TurnOff As Boolean = True)
@@ -35,7 +275,7 @@ Sub AddPipe()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     currRowCnt = Selection.Rows.Count
     
     Word1 = Cells(CurrRow, 1)
@@ -90,7 +330,7 @@ Sub AddJunction()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     
     
     Word1 = Cells(CurrRow, 1)
@@ -106,11 +346,11 @@ Sub AddJunction()
         Range(Cells(CurrRow, 1), Cells(CurrRow, 1)) = "Junction"
         Range(Cells(CurrRow, 2), Cells(CurrRow, 2)).Formula = "=CONCATENATE(""JUNC_"",ROW())"
         Range(Cells(CurrRow, 3), Cells(CurrRow, 4)) = "-"
-        Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = 0#      ' Area = 0 för inre junction
+        Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = 0#      ' Area = 0 fï¿½r inre junction
         Range(Cells(CurrRow, 6), Cells(CurrRow, 7)) = "-"     '
         Range(Cells(CurrRow, 8), Cells(CurrRow, 9)) = 0#      ' K+  K-
         Range(Cells(CurrRow, 10), Cells(CurrRow, 10)) = "junction"      ' Namn
-        Range(Cells(CurrRow, 11), Cells(CurrRow, 11)) = Cells(CurrRow - 2, 11)   ' Ritning   (samma som pipe för inre junction)
+        Range(Cells(CurrRow, 11), Cells(CurrRow, 11)) = Cells(CurrRow - 2, 11)   ' Ritning   (samma som pipe fï¿½r inre junction)
         Range(Cells(CurrRow, 12), Cells(CurrRow, 12)) = "-"       ' Kraftnr
         Range(Cells(CurrRow, 13), Cells(CurrRow, 13)).Formula = "=OFFSET($A$1,ROW()-3,1)"
         Range(Cells(CurrRow, 14), Cells(CurrRow, 14)).Formula = "=OFFSET($A$1,ROW()+1,1)"
@@ -125,7 +365,7 @@ Sub AddJunction()
         Range(Cells(CurrRow, 1), Cells(CurrRow, 1)) = "Junction"
         Range(Cells(CurrRow, 2), Cells(CurrRow, 2)).Formula = "=CONCATENATE(""JUNC_"",ROW())"
         Range(Cells(CurrRow, 3), Cells(CurrRow, 4)) = "-"
-        Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = 0#      ' Area = 0 för inre junction
+        Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = 0#      ' Area = 0 fï¿½r inre junction
         Range(Cells(CurrRow, 6), Cells(CurrRow, 7)) = "-"     '
         Range(Cells(CurrRow, 8), Cells(CurrRow, 9)) = 0#      ' K+  K-
         Range(Cells(CurrRow, 10), Cells(CurrRow, 10)) = "junction"      ' Namn
@@ -154,7 +394,7 @@ Sub AddTmdpvol()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     
     Word1 = Cells(CurrRow, 1)
     
@@ -173,7 +413,7 @@ Sub AddTmdpvol()
     
     Range(Cells(CurrRow, 1), Cells(CurrRow, 1)) = "Tmdpvol"
     Range(Cells(CurrRow, 2), Cells(CurrRow, 2)).Formula = "=CONCATENATE(""TMDV_"",ROW())"
-    Range(Cells(CurrRow, 3), Cells(CurrRow, 3)) = 1#        ' Längd = 1.000 m
+    Range(Cells(CurrRow, 3), Cells(CurrRow, 3)) = 1#        ' Lï¿½ngd = 1.000 m
     Range(Cells(CurrRow, 4), Cells(CurrRow, 4)) = "-"       ' dx = "-"
     Range(Cells(CurrRow, 5), Cells(CurrRow, 5)) = 1#        ' Area = 1.000 m2
     Range(Cells(CurrRow, 6), Cells(CurrRow, 7)) = 0#        ' Vinklar
@@ -200,7 +440,7 @@ Sub AddFlowPath()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     
     Word1 = Cells(CurrRow, 1)
     
@@ -245,7 +485,7 @@ Sub AddVariable()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     
     Word1 = Cells(CurrRow, 1)
     
@@ -280,7 +520,7 @@ Sub AddTripVariable()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     
     Word1 = Cells(CurrRow, 1)
     
@@ -316,7 +556,7 @@ Sub AddTripLogical()
         Exit Sub
     End If
     
-    CurrRow = Selection.row
+    CurrRow = Selection.Row
     
     Word1 = Cells(CurrRow, 1)
     
@@ -355,15 +595,15 @@ Sub dublicateCurrLoadCase()
         ElseIf Selection.Worksheet.Name <> TESTMATRIX_SHEET Then
             MsgBox "Select a load case in worksheet """ & TESTMATRIX_SHEET & """ to dublicate", vbExclamation, "Dublicate load case in Test matrix"
             Exit Sub
-        ElseIf ActiveCell.row < .Rows(1).row Or ActiveCell.row > .Rows(.Rows.Count).row Or ActiveCell.Column < .Columns(1).Column Or ActiveCell.Column > .Columns(.Columns.Count).Column Then
+        ElseIf ActiveCell.Row < .Rows(1).Row Or ActiveCell.Row > .Rows(.Rows.Count).Row Or ActiveCell.Column < .Columns(1).Column Or ActiveCell.Column > .Columns(.Columns.Count).Column Then
             MsgBox "Outside range"
             Exit Sub
         End If
     End With
     
-    readCol = 2   ' Kolumn där lastbeteckningen står
+    readCol = 2   ' Kolumn dï¿½r lastbeteckningen stï¿½r
     
-    CurrRow = ActiveCell.row
+    CurrRow = ActiveCell.Row
     
     loadCase = Cells(CurrRow, readCol)
     
@@ -422,6 +662,35 @@ Sub AddLoopCheck()
             End With
         Next i
     End With
+End Sub
+
+
+Sub AddRows()
+' Action: Adds one or more blank rows at the rows of the selected cells
+'
+'
+    Dim CurrRow As Integer, currRowCnt As Integer, Word1 As String
+    Dim Question
+    
+    If TypeName(Selection) <> "Range" Then
+        MsgBox "Select one or more cells where you want to add new pipe segments", vbExclamation, "Insert pipe segment"
+        Exit Sub
+    End If
+    
+    CurrRow = Selection.Row
+    currRowCnt = Selection.Rows.Count
+    
+    Word1 = Cells(CurrRow, 1)
+    
+    TurnOffScreenUpdate True
+    
+    Question = MsgBox("Insert " & CStr(currRowCnt) & " blank rows segments BELOW starting at row " + CStr(CurrRow) + "?", vbYesNoCancel, "Insert blank rows")
+    If Question <> vbYes Then Exit Sub
+    
+    Rows(CStr(CurrRow) & ":" & CStr(CurrRow + currRowCnt - 1)).Select
+    Selection.Insert Shift:=xlUp, copyorigin:=xlFormatFromLeftOrAbove
+
+    TurnOffScreenUpdate False
 End Sub
 
 

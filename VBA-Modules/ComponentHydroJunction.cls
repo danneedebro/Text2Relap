@@ -218,7 +218,7 @@ Public Sub Create(inputRows() As Variant, ByRef BaseComponent As ComponentHydro)
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".Create, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".Create, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Function ReplaceWords(ByVal InputString As String) As String
@@ -237,6 +237,8 @@ Public Function ReplaceWords(ByVal InputString As String) As String
     With Me.Segments(1)
         Replacements(1) = Array("[NNNVV000F]", "NNNVV000F", Me.Connections(1).ConnectionCode)
         Replacements(2) = Array("[MMMVV000F]", "MMMVV000F", Me.Connections(2).ConnectionCode)
+        Replacements(3) = Array("[NNNVV]", "NNNVV", s.sprintf("%03d%02d", Me.Connections(1).CCC, Me.Connections(1).Volume))
+        Replacements(4) = Array("[MMMVV]", "MMMVV", s.sprintf("%03d%02d", Me.Connections(2).CCC, Me.Connections(2).Volume))
     End With
         
     If Me.Info.MainType = pump Then
@@ -289,7 +291,7 @@ Public Function ReplaceWords(ByVal InputString As String) As String
 
     Exit Function
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".ReplaceWords, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".ReplaceWords, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 
 End Function
 
@@ -370,7 +372,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".WriteToFile, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Private Sub WriteValve(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal GenerateIncludeFile As Boolean = False)
@@ -503,7 +505,7 @@ Private Sub WriteValve(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".WriteValve, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteValve, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
     
 End Sub
 
@@ -551,7 +553,7 @@ Private Sub WriteTmdpjun(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".WriteTmdpjun, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteTmdpjun, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Private Sub WritePump(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal GenerateIncludeFile As Boolean = False)
@@ -712,7 +714,7 @@ Private Sub WritePump(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal Ge
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".WritePump, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WritePump, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 
@@ -764,7 +766,7 @@ ErrorHandler:
     If Not tsWrite Is Nothing Then tsWrite.Close
     If Not tsRead Is Nothing Then tsRead.Close
     
-    err.Raise err.Number, TypeName(Me) & ".WriteCustom, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteCustom, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 '
 '

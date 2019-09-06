@@ -181,7 +181,7 @@ Public Sub Create(inputRows() As Variant, ByRef ParentSystem As HydroSystem, ByV
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".Create, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".Create, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 '
 '
@@ -198,7 +198,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".WriteToFile, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Function ReplaceWords(ByVal InputString As String) As String

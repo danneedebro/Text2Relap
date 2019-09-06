@@ -169,7 +169,7 @@ Public Sub Create(inputRows() As Variant, ByRef BaseComponent As ComponentHydro)
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".Create, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".Create, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Public Function ReplaceWords(ByVal InputString As String) As String
@@ -359,7 +359,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
     
     Exit Sub
 ErrorHandler:
-    err.Raise err.Number, TypeName(Me) & ".WriteValve, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteValve, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Private Sub WriteCustom(ByRef ts As Object, ByVal wC As Boolean)
@@ -409,7 +409,7 @@ ErrorHandler:
     If Not tsWrite Is Nothing Then tsWrite.Close
     If Not tsRead Is Nothing Then tsRead.Close
     
-    err.Raise err.Number, TypeName(Me) & ".WriteCustom, " & err.Source, err.Description, err.HelpFile, err.HelpContext
+    Err.Raise Err.Number, TypeName(Me) & ".WriteCustom, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 '
 '
