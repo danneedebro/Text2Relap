@@ -46,7 +46,7 @@ Sub ResetFormat()
     'myRange.Interior.Pattern = xlNone
     
     Dim formatProperties() As FCond
-    ReDim formatProperties(18)
+    ReDim formatProperties(30)
     Dim formulaCurr As String
 
     ' PIPE
@@ -139,12 +139,20 @@ Sub ResetFormat()
     formatProperties(i) = AddFConditions("", Array(1), Array(9), colorTrip)
     formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tripvar""", firstRow))
     
-    ' Tripvar
+    ' Triplog
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(6), colorTrip)
     formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Triplog""", firstRow))
         
+    ' Format conditions: Color of toId and toNode turns grey if the points to the following component and connects to node 2
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(13), Array(13), FontColor:=RGB(128, 128, 128))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Mtrvlv""),$M%1$d=$B%2$d,$O%1$d=2,ISTEXT($M%2$d))", firstRow, firstRow - 2))
        
+    ' Format conditions: Color of toId and toNode turns grey if the points to the following component and connects to node 1
+    i = i + 1
+    formatProperties(i) = AddFConditions("", Array(14), Array(14), FontColor:=RGB(128, 128, 128))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Mtrvlv""),$N%1$d=$B%2$d,$P%1$d=1,ISTEXT($N%2$d))", firstRow, firstRow + 2))
         
     ReDim Preserve formatProperties(i)
     
