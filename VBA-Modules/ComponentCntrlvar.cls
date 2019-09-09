@@ -105,6 +105,8 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
 ' Inputs:   ts = A TextStream object (included in the MS Scripting Runtime)
 '           wC = writeComments, True if comments are to be written, false otherwise
 '
+    On Error GoTo ErrorHandler
+    
     Dim s As New ResourceSprintf
     Dim i As Integer, j As Integer, k As Integer
     
@@ -118,16 +120,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
     
     ts.WriteLine s.sprintf(CntrlvarStr & "  %-8s  %-8s  %7.3g  %7.3g  %1d", CntrlvarNumber, 0, ID, pCntrlvarType, ScalingFactor, InitialValue, InitialValueFlag)
     
-    
+    Exit Sub
+ErrorHandler:
+    Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
-
-
-'
-'
-' STATIC METHODS
-
-
-
-
-
-

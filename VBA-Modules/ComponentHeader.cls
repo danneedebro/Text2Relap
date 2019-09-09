@@ -130,6 +130,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
 ' Inputs:   ts = A TextStream object (included in the MS Scripting Runtime)
 '           wC = writeComments, True if comments are to be written, false otherwise
 '
+    On Error GoTo ErrorHandler
     Dim i As Integer
     
     If Settings.Filename <> "" And GenerateIncludeFile = False Then
@@ -217,7 +218,10 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
     t.AddLine "* --------------------------------------------------"
     t.AddLine "*"
     ts.WriteLine t.WriteAndClear
-
+    
+    Exit Sub
+ErrorHandler:
+    Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
 Private Sub WriteCustom(ByRef ts As Object, ByVal wC As Boolean)

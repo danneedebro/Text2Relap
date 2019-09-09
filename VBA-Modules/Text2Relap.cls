@@ -13,7 +13,6 @@ Attribute VB_Exposed = False
 '             Project:  Text2Relap
 '                Type:  Class module
 '              Author:  Daniel Edebro
-' Last (sign.) update:  2019-02-09
 '         Description:  Creates RELAP5 input files from a simplified input
 '
 ' -----------------------------------------------------------------
@@ -36,12 +35,12 @@ Attribute VB_Exposed = False
 Option Explicit
 '
 ' MEMBER VARIABLES
-Private Const DEBUG_ME As Boolean = True
+Private Const DEBUG_ME As Boolean = False
 Private Const DEFAULT_INPUT_WORKSHEET As String = "text2relap"
 Private Const DEFAULT_INPUT_RANGE_LASTROW As Integer = 1000
 
-Private Const TEXT2RELAP_VERSION = "2.0"
-Private Const TEXT2RELAP_BRANCH = "beta"
+Private Const TEXT2RELAP_VERSION = "2.0.0"
+Private Const TEXT2RELAP_BRANCH = "beta.1"
 
 Private InputRange As Range
 Private pHydroSystem As HydroSystem
@@ -499,10 +498,10 @@ ErrorHandler_1: ' Error during creation of textstream object
     Err.Source = TypeName(Me) & ".WriteToFile [Error creating FileObject] , " & Err.Source
     GoTo ErrorHandler
 ErrorHandler_2: ' Error during writing files
-    Err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='" & HydroSystem.Components(i).ObjectType & "', " & Err.Source
+    Err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='" & HydroSystem.Components(i).ObjectType & "'], " & Err.Source
     GoTo ErrorHandler
 ErrorHandler_3:
-    Err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='F" & CurrForce.ForceNumber & "', " & Err.Source
+    Err.Source = TypeName(Me) & ".WriteToFile [Error writing component(" & i & ")='F" & CurrForce.ForceNumber & "'], " & Err.Source
     GoTo ErrorHandler
     
 ErrorHandler:

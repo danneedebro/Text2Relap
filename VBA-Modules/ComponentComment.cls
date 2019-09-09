@@ -83,6 +83,8 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
 ' Inputs:   ts = A TextStream object (included in the MS Scripting Runtime)
 '           wC = writeComments, True if comments are to be written, false otherwise
 '
+    On Error GoTo ErrorHandler
+
     If CommentType = 1 Then
         ts.WriteBlankLines 6
         ts.WriteLine "*"
@@ -96,5 +98,9 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
     ElseIf CommentType = 3 Then
         ts.WriteLine Me.Text
     End If
+    
+    Exit Sub
+ErrorHandler:
+    Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
