@@ -40,7 +40,7 @@ Private Const DEFAULT_INPUT_WORKSHEET As String = "text2relap"
 Private Const DEFAULT_INPUT_RANGE_LASTROW As Integer = 1000
 
 Private Const TEXT2RELAP_VERSION = "2.0.0"
-Private Const TEXT2RELAP_BRANCH = "beta.1"
+Private Const TEXT2RELAP_BRANCH = "beta.2"
 
 Private InputRange As Range
 Private pHydroSystem As HydroSystem
@@ -570,7 +570,7 @@ Public Sub ProbeInput(ByVal Row1 As Integer, ByVal Row2 As Integer, OutputType A
                     If .ObjectType = HydroComp Then
                         Set CurrHydroComp = HydroSystem.Components(i)
                         CurrHydroComp.Child.WriteToFile ts, WriteComments, False
-                        CurrHydroComp.Child.WriteToFile ts, WriteComments, True  ' Debug purpose
+                        If DEBUG_ME = True Then CurrHydroComp.Child.WriteToFile ts, WriteComments, True ' Debug purpose
                     Else
                         .WriteToFile ts, WriteComments
                     End If

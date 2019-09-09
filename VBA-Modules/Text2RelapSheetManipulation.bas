@@ -31,6 +31,7 @@ Sub ResetFormat()
     colorTrip = RGB(255, 217, 179)      ' Light blue
     colorMisc = RGB(255, 255, 204)      ' Ivory
 
+    ToggleAutoCalc False ' Turn off update
 
     ' Define range
     Dim myRange As Range, subRange As Range
@@ -102,11 +103,11 @@ Sub ResetFormat()
     ' PUMP
     formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pump""", firstRow))
     i = i + 1
-    formatProperties(i) = AddFConditions("", Array(1, 5, 8, 13, 18), Array(2, 5, 11, 16, 22), colorJunction)
+    formatProperties(i) = AddFConditions("", Array(1, 5, 13, 18), Array(3, 11, 16, 22), colorJunction)
     formatProperties(i).Formula = formulaCurr
     
     i = i + 1
-    formatProperties(i) = AddFConditions("", Array(3, 6, 12, 17), Array(4, 7, 12, 17), colorGrey)
+    formatProperties(i) = AddFConditions("", Array(4, 12, 17), Array(4, 12, 17), colorGrey)
     formatProperties(i).Formula = formulaCurr
     
     ' Relapnr
@@ -147,16 +148,14 @@ Sub ResetFormat()
     ' Format conditions: Color of toId and toNode turns grey if the points to the following component and connects to node 2
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(13), Array(13), FontColor:=RGB(128, 128, 128))
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Mtrvlv""),$M%1$d=$B%2$d,$O%1$d=2,ISTEXT($M%2$d))", firstRow, firstRow - 2))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Sngljun"", $A%1$d=""Mtrvlv"", $A%1$d=""Srvvlv"", $A%1$d=""Chkvlv"", $A%1$d=""Inrvlv"", $A%1$d=""Pump""),$M%1$d=$B%2$d,$O%1$d=2,ISTEXT($M%2$d))", firstRow, firstRow - 2))
        
     ' Format conditions: Color of toId and toNode turns grey if the points to the following component and connects to node 1
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(14), Array(14), FontColor:=RGB(128, 128, 128))
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Mtrvlv""),$N%1$d=$B%2$d,$P%1$d=1,ISTEXT($N%2$d))", firstRow, firstRow + 2))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Sngljun"", $A%1$d=""Mtrvlv"", $A%1$d=""Srvvlv"", $A%1$d=""Chkvlv"", $A%1$d=""Inrvlv"", $A%1$d=""Pump""),$N%1$d=$B%2$d,$P%1$d=1,ISTEXT($N%2$d))", firstRow, firstRow + 2))
         
     ReDim Preserve formatProperties(i)
-    
-    ToggleAutoCalc False
     
     Dim subRangeAddress As String
     For i = LBound(formatProperties) To UBound(formatProperties)

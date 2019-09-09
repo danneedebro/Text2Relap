@@ -150,7 +150,7 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
     
     t.AddLine "* Generated with text2relap {} {}", t.Args(HydroSystem.Inputdeck.Text2RelapVersion, Key:="TEXT2RELAPVERSION"), _
                                                    t.Args(HydroSystem.Inputdeck.Text2RelapBranch, Key:="TEXT2RELAPBRANCH")
-    t.AddLine "* {} {}", t.Args(Format(Date, "YYYY-MM-dd"), Key:="CURRENTDATE"), t.Args(Format(Time, "hh:mm:ss"), Key:="CURRENTTIME")
+    t.AddLine "* {} {}", t.Args(Format(Date, "YYYY-MM-dd"), Key:="CURRENTDATE"), t.Args(Format(Now, "hh:mm:ss"), Key:="CURRENTTIME")
     t.AddLine "*"
     t.AddLine "={}", t.Args(Settings.Title, Key:="TITLE")
     t.AddLine ""
