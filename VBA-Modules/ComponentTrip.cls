@@ -213,13 +213,3 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
 ErrorHandler:
     Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
-
-
-'
-'
-' STATIC METHODS
-
-
-
-
-
