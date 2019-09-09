@@ -108,7 +108,9 @@ Public Sub Create(inputRows() As Variant, ByRef BaseComponent As ComponentHydro)
         Volumes = length / DxActual
         VolumesTotal = VolumesTotal + Volumes
         
-        Dim PipeOverflow As Boolean
+        ' If total number of volumes > 99: add the part of the pipe that fits and place the rest
+        ' in next component after first inserting a sngljun
+        Dim PipeOverflow As Boolean, insertJunction As Boolean
         If VolumesTotal > 99 Then
             PipeOverflow = True
             ReDim newPipe(1 To UBound(inputRows, 1) - i + 1, 1 To UBound(inputRows, 2))
@@ -130,6 +132,18 @@ Public Sub Create(inputRows() As Variant, ByRef BaseComponent As ComponentHydro)
             newPipe(1, 9) = inputRows(i, 9) ' K-
             VolumesTotal = 99
             Volumes = Volumes - VolumesOverFlow
+        
+        ' If number of volumes exactly 99 and pipe continues: add a sngljun and the rest of the pipe
+        ElseIf VolumesTotal = 99 And i < UBound(inputRows, 1) Then
+            
+            insertJunction = True
+            ReDim newPipe(1 To UBound(inputRows, 1) - i, 1 To UBound(inputRows, 2))
+            ' Copy values in inputRows to inputRowsNew
+            For j = 1 To UBound(newPipe, 1)
+                For k = 1 To UBound(newPipe, 2)
+                    newPipe(j, k) = inputRows(i + j, k)
+                Next k
+            Next j
         End If
         
         With Me.Segments(i)
@@ -171,13 +185,14 @@ Public Sub Create(inputRows() As Variant, ByRef BaseComponent As ComponentHydro)
         End With
         
         If PipeOverflow = True Then Exit For
+        If insertJunction = True Then Exit For
         
     Next i
     
     ' If you have pipe overflow (more than 99 volumes):
     '   1. Create a connecting junction
     '   2. Create a new pipe component
-    If PipeOverflow = True Then
+    If PipeOverflow = True Or insertJunction = True Then
         Dim newJunction() As Variant
         ReDim newJunction(1, 1 To UBound(inputRows, 2))
         Dim FromCode As String, ToCode As String

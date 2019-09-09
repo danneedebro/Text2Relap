@@ -424,8 +424,8 @@ Private Sub WriteValve(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
         ' CARD 401-499 - CV-TABLE
         t.AddLine "* Cv-table"
         t.AddLine "*        norm.area  Forward.Cv  Reverse.Cv"
-        t.AddLine " *{ }{  }      {   }     {     }     {     }", pCCC, card.Update(401), t.Args(0#, FStr:="%5.3f"), t.Args(0#, FStr:="%7.2f"), t.Args(0#, FStr:="%7.2f")
-        t.AddLine " *{ }{  }      {   }     {     }     {     }", pCCC, card.Update(402), t.Args(1#, FStr:="%5.3f"), t.Args(2000#, FStr:="%7.2f"), t.Args(2000#, FStr:="%7.2f")
+        t.AddLine "*{ }{  }      {   }     {     }     {     }", pCCC, card.Update(401), t.Args(0#, FStr:="%5.3f"), t.Args(0#, FStr:="%7.2f"), t.Args(0#, FStr:="%7.2f")
+        t.AddLine "*{ }{  }      {   }     {     }     {     }", pCCC, card.Update(402), t.Args(1#, FStr:="%5.3f"), t.Args(2000#, FStr:="%7.2f"), t.Args(2000#, FStr:="%7.2f")
         t.AddLine "*"
         ts.WriteLine t.WriteAndClear
             
