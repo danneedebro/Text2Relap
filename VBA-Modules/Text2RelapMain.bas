@@ -40,6 +40,7 @@ Sub CreateInputFile()
 '
     Dim CurrFilename As String
     Dim FileWriteStatus As TFileWriteStatus
+    Application.CalculateFull
     CurrFilename = Range(TESTMATRIX_CURRENT_FILEPATH).Value
     FileWriteStatus = ReadInputAndWriteToFile(CurrFilename)
     With FileWriteStatus
@@ -81,6 +82,7 @@ Sub CreateInputFiles()
     ReDim FileWriteStatus(LoadCase1 To LoadCase2)
     For i = LoadCase1 To LoadCase2
         Range("CurrentIndex").Value = i
+        Application.CalculateFull
         CurrFilename = Range("CurrentFilename").Value
         FileWriteStatus(i) = ReadInputAndWriteToFile(CurrFilename)
         If FileWriteStatus(i).FileWritten = False Then
