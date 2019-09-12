@@ -85,8 +85,8 @@ Public Function ReplaceWords(ByVal InputString As String) As String
     Dim Replacements(1 To 5) As Variant
     
     ' Replace keywords with properties specific to junction type components
-    Replacements(1) = Array("[TEXT2RELAPVERSION]", HydroSystem.Inputdeck.Text2RelapVersion)
-    Replacements(2) = Array("[TEXT2RELAPBRANCH]", HydroSystem.Inputdeck.Text2RelapBranch)
+    Replacements(1) = Array("[TEXT2RELAPVERSION]", HydroSystem.InputDeck.Text2RelapVersion)
+    Replacements(2) = Array("[TEXT2RELAPBRANCH]", HydroSystem.InputDeck.Text2RelapBranch)
     Replacements(3) = Array("[CURRENTDATE]", Format(Date, "YYYY-MM-dd"))
     Replacements(4) = Array("[CURRENTTIME]", Format(Time, "hh:mm:ss"))
     Replacements(5) = Array("[TITLE]", Settings.Title)
@@ -152,8 +152,8 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal G
     Set card = t.Args(0, FStr:="%03d")
     
     
-    t.AddLine "* Generated with text2relap {} {}", t.Args(HydroSystem.Inputdeck.Text2RelapVersion, Key:="TEXT2RELAPVERSION"), _
-                                                   t.Args(HydroSystem.Inputdeck.Text2RelapBranch, Key:="TEXT2RELAPBRANCH")
+    t.AddLine "* Generated with text2relap {} {}", t.Args(HydroSystem.InputDeck.Text2RelapVersion, Key:="TEXT2RELAPVERSION"), _
+                                                   t.Args(HydroSystem.InputDeck.Text2RelapBranch, Key:="TEXT2RELAPBRANCH")
     t.AddLine "* {} {}", t.Args(Format(Date, "YYYY-MM-dd"), Key:="CURRENTDATE"), t.Args(Format(Now, "hh:mm:ss"), Key:="CURRENTTIME")
     t.AddLine "*"
     t.AddLine "={}", t.Args(Settings.Title, Key:="TITLE")
@@ -246,9 +246,9 @@ Private Sub WriteCustom(ByRef ts As Object, ByVal wC As Boolean)
     If Includefile.FileExists = False Then
         Dim answ
         answ = MsgBox("Warning: Custom header file '" & Includefile.FullPath & "' doesn't exist. A generic header file will be created", vbExclamation + vbOKCancel, "Include file not found")
-        HydroSystem.Inputdeck.Warnings = True
+        HydroSystem.InputDeck.Warnings = True
         If answ = vbCancel Then
-            HydroSystem.Inputdeck.Abort = True
+            HydroSystem.InputDeck.Abort = True
             Exit Sub
         End If
         If Includefile.FolderExists = False Then Includefile.CreateFolders ' Create subfolders if they don't exist

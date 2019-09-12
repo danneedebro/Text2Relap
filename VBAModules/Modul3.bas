@@ -54,3 +54,5 @@ z = Split(Replace(Join(Filter(Split(Replace(Replace(Selection.Value, ")", "^#"),
 Selection.Offset(0, 1).Resize(, UBound(z) + 1) = z
 
 End Sub
+
+

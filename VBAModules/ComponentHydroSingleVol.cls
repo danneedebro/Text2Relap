@@ -32,8 +32,8 @@ Private pTmdpvol As TmdpvolInput
 '
 ' PROPERTIES
 ' Properties - Shared for all hydro components
-Public Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = pBase.Inputdeck
+Public Property Get InputDeck() As Text2Relap
+    Set InputDeck = pBase.InputDeck
 End Property
 
 Public Property Get HydroSystem() As HydroSystem
@@ -104,15 +104,15 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
         .VolumeLast = 1
         .Volumes = 1
         .ID = InputData(1, 2)
-        .Dx = Inputdeck.CheckInput(InputData(1, 3), Numeric:=True, valueDefault:=1#, causeError:=True, FieldName:="Length", word:=3)
-        .Area = Inputdeck.CheckInput(InputData(1, 5), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Area", word:=5)
-        .AngleVert = Inputdeck.CheckInput(InputData(1, 6), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Vertical angle", word:=6)
-        .AngleAzi = Inputdeck.CheckInput(InputData(1, 7), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Azimuthal angle", word:=7)
+        .Dx = InputDeck.CheckInput(InputData(1, 3), Numeric:=True, valueDefault:=1#, causeError:=True, FieldName:="Length", word:=3)
+        .Area = InputDeck.CheckInput(InputData(1, 5), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Area", word:=5)
+        .AngleVert = InputDeck.CheckInput(InputData(1, 6), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Vertical angle", word:=6)
+        .AngleAzi = InputDeck.CheckInput(InputData(1, 7), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Azimuthal angle", word:=7)
         .Name = InputData(1, 10)
         .Drawing = InputData(1, 11)
         .Elevchange = .Dx * Sin(.AngleVert * 3.14159265 / 180)
-        .VFlags = Inputdeck.CheckInput(InputData(1, 21), Numeric:=False, valueDefault:="0000000", causeError:=False, FieldName:="Volume flags", word:=21, IsBinaryString:=True)
-        .JFlags = Inputdeck.CheckInput(InputData(1, 22), Numeric:=False, valueDefault:="00000000", causeError:=False, FieldName:="Junction flags", word:=22, IsBinaryString:=True)
+        .VFlags = InputDeck.CheckInput(InputData(1, 21), Numeric:=False, valueDefault:="0000000", causeError:=False, FieldName:="Volume flags", word:=21, IsBinaryString:=True)
+        .JFlags = InputDeck.CheckInput(InputData(1, 22), Numeric:=False, valueDefault:="00000000", causeError:=False, FieldName:="Junction flags", word:=22, IsBinaryString:=True)
         Set .Init = pBase.Init
     End With
     
@@ -148,21 +148,21 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
     
     ' If input errors occured
     If ErrorMessages1 <> "" Then
-        Inputdeck.HighlightCurrentLines 17
+        InputDeck.HighlightCurrentLines 17
         answ = MsgBox(ErrorMessages1 & vbNewLine & "Continue?", vbExclamation + vbOKCancel)
         If answ = vbCancel Then
-            Inputdeck.Abort = True
+            InputDeck.Abort = True
             Exit Sub
         End If
     End If
     
     ' If input errors occured
     If ErrorMessages2 <> "" Then
-        Inputdeck.HighlightCurrentLines 18
+        InputDeck.HighlightCurrentLines 18
         answ = MsgBox(ErrorMessages2 & vbNewLine & "Continue?", vbExclamation + vbOKCancel)
-        Inputdeck.Warnings = True
+        InputDeck.Warnings = True
         If answ = vbCancel Then
-            Inputdeck.Abort = True
+            InputDeck.Abort = True
             Exit Sub
         End If
     End If
@@ -381,9 +381,9 @@ Private Sub WriteCustom(ByRef ts As Object, ByVal wC As Boolean)
         Dim answ, CompType As String
         CompType = Me.Info.MainTypeStr & "-" & Me.Info.SubTypeStr
         answ = MsgBox("Warning: Custom hydrodynamic component '" & Includefile.FullPath & "' doesn't exist. A generic " & CompType & "-type includefile will be created", vbExclamation + vbOKCancel, "Include file not found")
-        Inputdeck.Warnings = True
+        InputDeck.Warnings = True
         If answ = vbCancel Then
-            Inputdeck.Abort = True
+            InputDeck.Abort = True
             Exit Sub
         End If
         If Includefile.FolderExists = False Then Includefile.CreateFolders ' Create subfolders if they don't exist

@@ -30,9 +30,9 @@ Private Sub Class_Initialize()
     Set pRefvols = New Collection
 End Sub
 
-Public Sub Add(ByRef inputRows() As Variant)
+Public Sub Add(ByRef InputData As InputObject)
     Dim NewRefvol As New PropertiesSettingsRefvol
-    NewRefvol.Create inputRows, HydroSystem
+    NewRefvol.Create InputData, HydroSystem
     pRefvols.Add NewRefvol
 End Sub
 

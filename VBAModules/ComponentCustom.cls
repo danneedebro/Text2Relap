@@ -53,8 +53,8 @@ End Sub
 '
 '
 ' PROPERTIES
-Public Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = HydroSystem.Inputdeck
+Public Property Get InputDeck() As Text2Relap
+    Set InputDeck = HydroSystem.InputDeck
 End Property
 
 Public Property Get Settings() As PropertiesSettings
@@ -110,9 +110,9 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
     If Includefile.FileExists = False Then
         Dim answ
         answ = MsgBox("Warning: Custom component " & vbNewLine & Chr(34) & Includefile.FullPath & Chr(34) & vbNewLine & " doesn't exist. An empty custom component includefile will be created", vbExclamation + vbOKCancel, "Include file not found")
-        Inputdeck.Warnings = True
+        InputDeck.Warnings = True
         If answ = vbCancel Then
-            Inputdeck.Abort = True
+            InputDeck.Abort = True
             Exit Sub
         End If
         If Includefile.FolderExists = False Then Includefile.CreateFolders ' Create subfolders if they don't exist

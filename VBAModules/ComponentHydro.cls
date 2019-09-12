@@ -78,8 +78,8 @@ End Sub
 '
 '
 ' PROPERTIES
-Public Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = pHydroSystem.Inputdeck
+Public Property Get InputDeck() As Text2Relap
+    Set InputDeck = pHydroSystem.InputDeck
 End Property
 
 Public Property Get HydroSystem() As HydroSystem

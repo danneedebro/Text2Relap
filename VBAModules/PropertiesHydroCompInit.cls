@@ -30,14 +30,14 @@ Public CntrlWord As Integer
 '
 '
 ' PROPERTIES
-Private Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = pHydroSystem.Inputdeck
+Private Property Get InputDeck() As Text2Relap
+    Set InputDeck = pHydroSystem.InputDeck
 End Property
 
 '
 '
 ' CLASS EVENT METHODS
-Public Sub Create(inputRow() As Variant, ByRef ParentSystem As HydroSystem)
+Public Sub Create(InputData As InputObject, ByRef ParentSystem As HydroSystem)
         
     ' Associate with parent hydro system
     Set pHydroSystem = ParentSystem
@@ -48,21 +48,21 @@ Public Sub Create(inputRow() As Variant, ByRef ParentSystem As HydroSystem)
     Dim PressureRead As Double, TemperatureRead As Double, QualityRead As Double
     
     
-    PressureRead = Inputdeck.CheckInput(inputRow(1, 2), Numeric:=True, valueDefault:=100000#, causeError:=True, FieldName:="Pressure", word:=2)
-    TemperatureRead = Inputdeck.CheckInput(inputRow(1, 3), Numeric:=True, valueDefault:=293.15, causeError:=True, FieldName:="Temperature", word:=3)
+    PressureRead = InputDeck.CheckInput(InputData(1, 2), Numeric:=True, valueDefault:=100000#, causeError:=True, FieldName:="Pressure", word:=2)
+    TemperatureRead = InputDeck.CheckInput(InputData(1, 3), Numeric:=True, valueDefault:=293.15, causeError:=True, FieldName:="Temperature", word:=3)
     
-    Me.ID = inputRow(1, 4)
+    Me.ID = InputData(1, 4)
     
-    If LCase(inputRow(1, 1)) = "init" Then
+    If LCase(InputData(1, 1)) = "init" Then
         EbtFlag = "103"
-    ElseIf LCase(inputRow(1, 1)) = "initgas" Then
+    ElseIf LCase(InputData(1, 1)) = "initgas" Then
         EbtFlag = "104"
         Pressure = PressureRead
         Temperature = TemperatureRead
-        If IsEmpty(inputRow(1, 5)) Then
+        If IsEmpty(InputData(1, 5)) Then
             Quality = 1#
         Else
-            Me.Quality = Inputdeck.CheckInput(inputRow(1, 5), Numeric:=True, valueDefault:=1#, causeError:=True, FieldName:="Quality", word:=5)
+            Me.Quality = InputDeck.CheckInput(InputData(1, 5), Numeric:=True, valueDefault:=1#, causeError:=True, FieldName:="Quality", word:=5)
         End If
         
     End If

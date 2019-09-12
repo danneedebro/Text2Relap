@@ -44,8 +44,8 @@ Private pTmdpjun As TmdpjunInput
 '
 ' PROPERTIES
 ' Properties - Shared for all hydro components
-Public Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = pBase.Inputdeck
+Public Property Get InputDeck() As Text2Relap
+    Set InputDeck = pBase.InputDeck
 End Property
 
 Public Property Get HydroSystem() As HydroSystem
@@ -122,8 +122,8 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
     Dim i As Integer
     For i = 1 To 2
         pBase.Connections.Add New PropertiesHydroCompConnection
-        Connections(i).ID = Inputdeck.CheckInput(InputData(1, 12 + i), Numeric:=False, valueDefault:=0, causeError:=True, FieldName:="Junction connection-ID", word:=12 + i, IsFatal:=True)
-        Connections(i).Side = Inputdeck.CheckInput(InputData(1, 14 + i), True, valueDefault:=3 - i, causeError:=True, FieldName:="Junction connection-Side", word:=14 + i, IsFatal:=True)
+        Connections(i).ID = InputDeck.CheckInput(InputData(1, 12 + i), Numeric:=False, valueDefault:=0, causeError:=True, FieldName:="Junction connection-ID", word:=12 + i, IsFatal:=True)
+        Connections(i).Side = InputDeck.CheckInput(InputData(1, 14 + i), True, valueDefault:=3 - i, causeError:=True, FieldName:="Junction connection-Side", word:=14 + i, IsFatal:=True)
     Next i
 
     ' Create one segment with values read into it
@@ -139,19 +139,19 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
     
     With Segments(1)
         If Me.Info.MainType = pump Then
-            .Dx = Inputdeck.CheckInput(InputData(1, 3), Numeric:=True, valueDefault:=0.2, causeError:=True, FieldName:="Dx", word:=3)
-            .AngleVert = Inputdeck.CheckInput(InputData(1, 6), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Vertical Angle", word:=6)
-            .AngleAzi = Inputdeck.CheckInput(InputData(1, 7), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Azimuthal Angle", word:=7)
+            .Dx = InputDeck.CheckInput(InputData(1, 3), Numeric:=True, valueDefault:=0.2, causeError:=True, FieldName:="Dx", word:=3)
+            .AngleVert = InputDeck.CheckInput(InputData(1, 6), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Vertical Angle", word:=6)
+            .AngleAzi = InputDeck.CheckInput(InputData(1, 7), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Azimuthal Angle", word:=7)
             .Volumes = 1
         End If
         .ID = InputData(1, 2)
-        .Area = Inputdeck.CheckInput(InputData(1, 5), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Area", word:=5)
-        .KLossPos = Inputdeck.CheckInput(InputData(1, 8), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K+", word:=8)
-        .KLossNeg = Inputdeck.CheckInput(InputData(1, 9), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K-", word:=9)
-        .Name = Inputdeck.CheckInput(InputData(1, 10), Numeric:=False, valueDefault:="Name", causeError:=False, FieldName:="Name", word:=10)
-        .Drawing = Inputdeck.CheckInput(InputData(1, 11), Numeric:=False, valueDefault:="", causeError:=False, FieldName:="Drawing", word:=11)
-        .VFlags = Inputdeck.CheckInput(InputData(1, 21), Numeric:=False, valueDefault:=Defaults.VFlags, causeError:=False, FieldName:="Volume flags", word:=21, IsBinaryString:=True)
-        .JFlags = Inputdeck.CheckInput(InputData(1, 22), Numeric:=False, valueDefault:=Defaults.JFlags, causeError:=False, FieldName:="Junction flags", word:=22, IsBinaryString:=True)
+        .Area = InputDeck.CheckInput(InputData(1, 5), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Area", word:=5)
+        .KLossPos = InputDeck.CheckInput(InputData(1, 8), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K+", word:=8)
+        .KLossNeg = InputDeck.CheckInput(InputData(1, 9), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K-", word:=9)
+        .Name = InputDeck.CheckInput(InputData(1, 10), Numeric:=False, valueDefault:="Name", causeError:=False, FieldName:="Name", word:=10)
+        .Drawing = InputDeck.CheckInput(InputData(1, 11), Numeric:=False, valueDefault:="", causeError:=False, FieldName:="Drawing", word:=11)
+        .VFlags = InputDeck.CheckInput(InputData(1, 21), Numeric:=False, valueDefault:=Defaults.VFlags, causeError:=False, FieldName:="Volume flags", word:=21, IsBinaryString:=True)
+        .JFlags = InputDeck.CheckInput(InputData(1, 22), Numeric:=False, valueDefault:=Defaults.JFlags, causeError:=False, FieldName:="Junction flags", word:=22, IsBinaryString:=True)
         Set .Init = pBase.Init
     End With
     
@@ -191,8 +191,8 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
         pTmdpjun.Flowrate = Word20(2)
     ElseIf Me.Info.MainType = pump Then
         With pPump
-            .RatedFlow = Inputdeck.CheckInput(InputData(1, 18), True, 0, False)
-            .RatedHead = Inputdeck.CheckInput(InputData(1, 19), True, 0, False)
+            .RatedFlow = InputDeck.CheckInput(InputData(1, 18), True, 0, False)
+            .RatedHead = InputDeck.CheckInput(InputData(1, 19), True, 0, False)
             .Time = Word20(1)
             .RatedSpeed = Word20(2)
             .RatedTorque = .RatedHead * 998.5 * 9.81 * .RatedFlow / IIf(.RatedSpeed(0) <> 0, .RatedSpeed(0), 1)
@@ -206,12 +206,12 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
     
     ' If input errors occured
     If ErrorMessages <> "" Then
-        Inputdeck.HighlightCurrentLines 20
+        InputDeck.HighlightCurrentLines 20
         Dim answ
         answ = MsgBox(ErrorMessages & vbNewLine & "Continue?", vbExclamation + vbOKCancel)
-        Inputdeck.Warnings = True
+        InputDeck.Warnings = True
         If answ = vbCancel Then
-            Inputdeck.Abort = True
+            InputDeck.Abort = True
             Exit Sub
         End If
     End If
@@ -736,11 +736,11 @@ Private Sub WriteCustom(ByRef ts As Object, ByVal wC As Boolean)
     If Includefile.FileExists = False Then
         Dim answ, CompType As String
         CompType = Me.Info.MainTypeStr & "-" & Me.Info.SubTypeStr
-        Inputdeck.HighlightCurrentLines 10, pBase.RowBegin
+        InputDeck.HighlightCurrentLines 10, pBase.RowBegin
         answ = MsgBox("Warning: Custom hydrodynamic component '" & Includefile.FullPath & "' doesn't exist. A generic " & CompType & "-type includefile will be created", vbExclamation + vbOKCancel, "Include file not found")
-        Inputdeck.Warnings = True
+        InputDeck.Warnings = True
         If answ = vbCancel Then
-            Inputdeck.Abort = True
+            InputDeck.Abort = True
             Exit Sub
         End If
         If Includefile.FolderExists = False Then Includefile.CreateFolders ' Create subfolders if they don't exist

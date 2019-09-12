@@ -37,16 +37,16 @@ Private Sub Class_Initialize()
     pCurrentInit.Temperature = 293.15
 End Sub
 
-Public Sub Add(ByRef inputRows() As Variant)
+Public Sub Add(ByRef InputData As InputObject)
     On Error GoTo ErrorHandler:
     Dim NewInit As New PropertiesHydroCompInit
-    NewInit.Create inputRows, HydroSystem
+    NewInit.Create InputData, HydroSystem
      
     ' If no ID is given, change CurrentInit, otherwise add to Inits-collection
     If NewInit.ID = "" Then
         Set pCurrentInit = NewInit
     Else
-        NewInit.ID = inputRows(1, 4)
+        NewInit.ID = InputData(1, 4)
         pInits.Add NewInit
     End If
     

@@ -53,17 +53,17 @@ Sub WriteStripRequestFile()
     shtInd = GetSheetIndex()
     If shtInd = -1 Then Exit Sub
     
-    Dim Inputdeck As Text2Relap
-    Set Inputdeck = NewInputdeck(Worksheets(shtInd).Name)
+    Dim InputDeck As Text2Relap
+    Set InputDeck = NewInputdeck(Worksheets(shtInd).Name)
     Debug.Print Worksheets(shtInd).Name
-    Debug.Print Inputdeck.HydroSystem.Components.Count
+    Debug.Print InputDeck.HydroSystem.Components.Count
     
     Dim junctionCodes As New Collection
     Dim volumeCodes As New Collection
     Dim hydroCompCurr As ComponentHydro
     Dim s As New ResourceSprintf
     
-    With Inputdeck.HydroSystem
+    With InputDeck.HydroSystem
         For i = 1 To .Components.Count
             'Debug.Print Inputdeck.HydroSystem.Components(i).ComponentInfo
             'Debug.Print "   " & Inputdeck.HydroSystem.Components(i).ObjectType

@@ -30,9 +30,9 @@ Private Sub Class_Initialize()
     Set pTimesteps = New Collection
 End Sub
 
-Public Sub Add(ByRef inputRows() As Variant)
+Public Sub Add(ByRef InputData As InputObject)
     Dim NewTimestep As New PropertiesSettingsTimestep
-    NewTimestep.Create inputRows, HydroSystem
+    NewTimestep.Create InputData, HydroSystem
     pTimesteps.Add NewTimestep
 End Sub
 

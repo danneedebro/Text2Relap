@@ -31,7 +31,7 @@ Private Sub Class_Initialize()
     Set pReplacementsReplace = New Collection
 End Sub
 
-Public Sub Add(ByRef inputRows() As Variant)
+Public Sub Add(ByRef InputData As InputObject)
     On Error GoTo ErrorHandler:
 
     ' Parse text
@@ -39,7 +39,7 @@ Public Sub Add(ByRef inputRows() As Variant)
     Dim Word2 As Variant
     Dim ErrorMessages As String
     
-    Word2 = s.ParseBrackedExpression(inputRows(1, 2), Numeric:=False)
+    Word2 = s.ParseBrackedExpression(InputData(1, 2), Numeric:=False)
     
     ' If second bit is set input is not a multiple of two
     If s.CheckBitSet(Word2(0), 2) = True Then ErrorMessages = ErrorMessages & "Input Error: Input is Not a multiple of two." & vbNewLine & vbNewLine
@@ -47,11 +47,11 @@ Public Sub Add(ByRef inputRows() As Variant)
     
     ' If input errors occured
     If ErrorMessages <> "" Then
-        HydroSystem.Inputdeck.HighlightCurrentLines 2
+        HydroSystem.InputDeck.HighlightCurrentLines 2
         Dim answ
         answ = MsgBox(ErrorMessages & vbNewLine & "Continue?", vbExclamation + vbOKCancel)
         If answ = vbCancel Then
-            HydroSystem.Inputdeck.Abort = True
+            HydroSystem.InputDeck.Abort = True
             Exit Sub
         End If
     End If

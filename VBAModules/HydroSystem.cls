@@ -20,12 +20,12 @@ Private pSource As InputObject               ' Contains info about the source of
 '
 '
 ' PROPERTIES
-Public Property Get Inputdeck() As Text2Relap
+Public Property Get InputDeck() As Text2Relap
     If IsMissing(pInputDeck) Then MsgBox "Inputdeck missing"
-    Set Inputdeck = pInputDeck
+    Set InputDeck = pInputDeck
 End Property
 
-Public Property Set Inputdeck(arg As Text2Relap)
+Public Property Set InputDeck(arg As Text2Relap)
     Set pInputDeck = arg
 End Property
 

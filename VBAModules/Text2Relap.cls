@@ -199,7 +199,7 @@ Private Function ReadInput() As Boolean
     InputData.Create InputRange
     
     ' Sweep 1 - Read general settings
-    For i = 1 To InputRange.Rows.Count
+    For i = 1 To InputData.NumberOfRows
         ' If user cancels further reading in subroutine
         If pAbort = True Then
             ReadInput = False
@@ -208,39 +208,45 @@ Private Function ReadInput() As Boolean
     
         'Debug.Print "Word1 = " & InputData(CLng(i), CLng(1))
     
-        inputRow = RangeToArray(InputRange, i, i)
-        Word1 = LCase(inputRow(1, 1))
+        'inputRow = RangeToArray(InputRange, i, i)
+        Word1 = LCase(InputData(i, 1))
         currLine1 = i
         currLine2 = i
         
         Select Case Word1
             Case "title"
-                HydroSystem.Settings.Title = inputRow(1, 2)
+                HydroSystem.Settings.Title = InputData(i, 2)
             Case "include"
-                HydroSystem.Settings.IncludeFolder = inputRow(1, 2)
+                HydroSystem.Settings.IncludeFolder = InputData(i, 2)
             Case "tripformat"
-                HydroSystem.Settings.TripFormat = CheckInput(inputRow(1, 2), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Trip format", word:=2)
+                HydroSystem.Settings.TripFormat = CheckInput(InputData(i, 2), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Trip format", word:=2)
             Case "cvformat"
-                HydroSystem.Settings.CntrlvarFormat = CheckInput(inputRow(1, 2), Numeric:=True, valueDefault:=999, causeError:=True, FieldName:="Cntrlvar format", word:=2)
+                HydroSystem.Settings.CntrlvarFormat = CheckInput(InputData(i, 2), Numeric:=True, valueDefault:=999, causeError:=True, FieldName:="Cntrlvar format", word:=2)
             Case "forcecalc"
-                HydroSystem.Settings.ForceCalcMethod = CheckInput(inputRow(1, 2), Numeric:=True, valueDefault:=2, causeError:=True, FieldName:="Force calculation method", word:=2)
+                HydroSystem.Settings.ForceCalcMethod = CheckInput(InputData(i, 2), Numeric:=True, valueDefault:=2, causeError:=True, FieldName:="Force calculation method", word:=2)
+            Case "comments"
+                If InputData(i, 2) = 0 Then
+                    HydroSystem.Settings.WriteComments = False
+                Else
+                    HydroSystem.Settings.WriteComments = True
+                End If
         End Select
     
     Next i
     
     
     ' Sweep 2 - Read components and other things
-    For i = 1 To InputRange.Rows.Count
+    For i = 1 To InputData.NumberOfRows
         ' If user cancels further reading in subroutine
         If pAbort = True Then
             ReadInput = False
             Exit Function
         End If
         
-        If IsEmpty(InputRange(i, 1)) = True Then GoTo Next_i
+        If IsEmpty(InputData(i, 1)) = True Then GoTo Next_i
         
-        inputRow = RangeToArray(InputRange, i, i)
-        Word1 = LCase(inputRow(1, 1))
+        'inputRow = RangeToArray(InputRange, i, i)
+        Word1 = LCase(InputData(i, 1))
         currLine1 = i
         currLine2 = i
         
@@ -261,10 +267,10 @@ Private Function ReadInput() As Boolean
         
         Select Case Word1
             Case "relapnr"
-                HydroSystem.Settings.CurrentCCC = inputRow(1, 2)
+                HydroSystem.Settings.CurrentCCC = InputData(i, 2)
                 
             Case "init", "initgas"
-                HydroSystem.Settings.Inits.Add inputRow
+                HydroSystem.Settings.Inits.Add InputData.MakeCopy(i)
                 
             Case "pipe"
                 For j = i + 1 To InputRange.Rows.Count
@@ -285,29 +291,22 @@ Private Function ReadInput() As Boolean
                 HydroSystem.Components.Add Custom, InputData.MakeCopy(i)
                 
             Case "triggerwords", "replacements"
-                HydroSystem.Settings.Replacements.Add inputRow
+                HydroSystem.Settings.Replacements.Add InputData.MakeCopy(i)
                 
             Case "timestep"
-                HydroSystem.Settings.Timesteps.Add inputRow
+                HydroSystem.Settings.Timesteps.Add InputData.MakeCopy(i)
                 
             Case "refvol"
-                HydroSystem.Settings.Refvols.Add inputRow
+                HydroSystem.Settings.Refvols.Add InputData.MakeCopy(i)
                 
             Case "cntrlvarnr"
-                HydroSystem.Settings.CurrentCntrlvarNum = CheckInput(inputRow(1, 2), Numeric:=True, valueDefault:=HydroSystem.Settings.CurrentCCC, causeError:=True, FieldName:="CntrlvarNr", word:=2)
+                HydroSystem.Settings.CurrentCntrlvarNum = CheckInput(InputData(i, 2), Numeric:=True, valueDefault:=HydroSystem.Settings.CurrentCCC, causeError:=True, FieldName:="CntrlvarNr", word:=2)
             
-            Case "comments"
-                If inputRow(1, 2) = 0 Then
-                    HydroSystem.Settings.WriteComments = False
-                Else
-                    HydroSystem.Settings.WriteComments = True
-                End If
-                
             Case "header"
-                HydroSystem.Settings.Filename = inputRow(1, 2)
+                HydroSystem.Settings.Filename = InputData(i, 2)
                 
             Case "develop"
-                HydroSystem.Settings.DevelopmentControl = inputRow(1, 2)
+                HydroSystem.Settings.DevelopmentControl = InputData(i, 2)
             
             Case "tripvar"
                 HydroSystem.Components.Add TripVariable, InputData.MakeCopy(i)

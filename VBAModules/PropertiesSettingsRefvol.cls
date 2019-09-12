@@ -24,8 +24,8 @@ Public SystemInformationFlag As Integer
 '
 '
 ' PROPERTIES
-Private Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = pHydroSystem.Inputdeck
+Private Property Get InputDeck() As Text2Relap
+    Set InputDeck = pHydroSystem.InputDeck
 End Property
 
 Public Property Get ReferenceVolume() As String
@@ -34,17 +34,17 @@ End Property
 '
 '
 ' CLASS EVENT METHODS
-Public Sub Create(inputRows() As Variant, ByRef ParentSystem As HydroSystem)
+Public Sub Create(InputData As InputObject, ByRef ParentSystem As HydroSystem)
     On Error GoTo ErrorHandler
 
     ' Associate with parent hydro system
     Set pHydroSystem = ParentSystem
     
-    CCC = Inputdeck.CheckInput(inputRows(1, 2), Numeric:=True, valueDefault:=1, causeError:=True, FieldName:="Refvol CCC", word:=2)
-    Volume = Inputdeck.CheckInput(inputRows(1, 3), Numeric:=True, valueDefault:=1, causeError:=True, FieldName:="Refvol Volume", word:=3)
-    Elevation = Inputdeck.CheckInput(inputRows(1, 4), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Refvol Elevation", word:=4)
-    SystemName = inputRows(1, 5)
-    Fluid = Inputdeck.CheckInput(inputRows(1, 6), Numeric:=False, valueDefault:="h2o", causeError:=True, FieldName:="Refvol Fluid type", word:=6)
+    CCC = InputDeck.CheckInput(InputData(1, 2), Numeric:=True, valueDefault:=1, causeError:=True, FieldName:="Refvol CCC", word:=2)
+    Volume = InputDeck.CheckInput(InputData(1, 3), Numeric:=True, valueDefault:=1, causeError:=True, FieldName:="Refvol Volume", word:=3)
+    Elevation = InputDeck.CheckInput(InputData(1, 4), Numeric:=True, valueDefault:=0#, causeError:=True, FieldName:="Refvol Elevation", word:=4)
+    SystemName = InputData(1, 5)
+    Fluid = InputDeck.CheckInput(InputData(1, 6), Numeric:=False, valueDefault:="h2o", causeError:=True, FieldName:="Refvol Fluid type", word:=6)
     
     Exit Sub
 ErrorHandler:

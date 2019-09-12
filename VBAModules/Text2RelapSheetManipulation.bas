@@ -641,13 +641,13 @@ Sub AddLoopCheck()
     Dim i As Integer, j As Integer
     Dim s As New ResourceSprintf
     
-    Dim Inputdeck As New Text2Relap
-    If Inputdeck.ReadOk = False Then Exit Sub
+    Dim InputDeck As New Text2Relap
+    If InputDeck.ReadOk = False Then Exit Sub
     
     Dim FirstComp As Boolean, LastComp As Boolean
     Dim LastCompRow As Integer, LastCompIndex As Integer
     LastCompRow = -1
-    With Inputdeck.HydroSystem
+    With InputDeck.HydroSystem
         For i = 1 To .Components.Count
             With .Components(i)
                 If .ObjectType = HydroComp Then

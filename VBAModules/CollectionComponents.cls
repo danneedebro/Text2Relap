@@ -84,12 +84,12 @@ Public Sub Add(ByVal Item As R5Component, ByRef InputData As InputObject)
     Exit Sub
 ErrorHandler:
     If Err.Number = 457 Then
-        HydroSystem.Inputdeck.HighlightCurrentLines
+        HydroSystem.InputDeck.HighlightCurrentLines
         Dim answ
         
         answ = MsgBox("Critical error: " & Key & " already taken", vbCritical, "CCC already occupied")
-        HydroSystem.Inputdeck.Warnings = True
-        HydroSystem.Inputdeck.Abort = True
+        HydroSystem.InputDeck.Warnings = True
+        HydroSystem.InputDeck.Abort = True
         Exit Sub
     Else
         Err.Raise Err.Number, TypeName(Me) & ".Add, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext

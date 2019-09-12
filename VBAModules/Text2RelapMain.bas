@@ -30,9 +30,9 @@ End Type
 Function NewInputdeck(Optional ByVal InputWorksheet As String = "", Optional ByVal LastRow As Integer = -1) As Text2Relap
 ' Action: Factory function for a Text2Relap input deck
 '
-    Dim Inputdeck As New Text2Relap
-    Inputdeck.Create InputWorksheet, LastRow
-    Set NewInputdeck = Inputdeck
+    Dim InputDeck As New Text2Relap
+    InputDeck.Create InputWorksheet, LastRow
+    Set NewInputdeck = InputDeck
 End Function
 
 Sub CreateInputFile()
@@ -105,13 +105,13 @@ Function ReadInputAndWriteToFile(ByVal Filename As String) As TFileWriteStatus
 '
     Dim Result As TFileWriteStatus
     
-    Dim Inputdeck As Text2Relap
-    Set Inputdeck = NewInputdeck(ActiveSheet.Name)
+    Dim InputDeck As Text2Relap
+    Set InputDeck = NewInputdeck(ActiveSheet.Name)
     Dim InputFile As New ResourceFileObject
     
     Result.Filename = Filename
     
-    If Inputdeck.ReadOk = True Then
+    If InputDeck.ReadOk = True Then
         If InStr(1, Filename, ":") > 0 Then   ' If Full path supplied
             InputFile.CreateByParts Filename
         Else ' If relative path
@@ -126,9 +126,9 @@ Function ReadInputAndWriteToFile(ByVal Filename As String) As TFileWriteStatus
         Result.FullPath = InputFile.FullPath
         Result.Filename = InputFile.Filename
     
-        If Inputdeck.WriteToFile(InputFile.FullPath) = True Then
+        If InputDeck.WriteToFile(InputFile.FullPath) = True Then
             Result.FileWritten = True
-            If Inputdeck.Warnings = False Then
+            If InputDeck.Warnings = False Then
                 Result.message = "Info: " & InputFile.FullPath & " created successfully"
                 Result.Warnings = False
             Else
@@ -165,11 +165,11 @@ Attribute ProbeOutput.VB_ProcData.VB_Invoke_Func = "I\n14"
             row2 = .Rows(.Rows.Count).Row
         End With
 
-        Dim Inputdeck As Text2Relap
-        Set Inputdeck = NewInputdeck(ActiveSheet.Name)
-        If Inputdeck.ReadOk = True Then
-            Inputdeck.ProbeInput row1, row2, 0
-            Inputdeck.ProbeInput row1, row2, 3
+        Dim InputDeck As Text2Relap
+        Set InputDeck = NewInputdeck(ActiveSheet.Name)
+        If InputDeck.ReadOk = True Then
+            InputDeck.ProbeInput row1, row2, 0
+            InputDeck.ProbeInput row1, row2, 3
         Else
             MsgBox "Failed to read"
         End If
@@ -180,10 +180,10 @@ End Sub
 Sub ModelSummary()
 ' Action: Writes a model summary
 '
-    Dim Inputdeck As Text2Relap
-    Set Inputdeck = NewInputdeck(ActiveSheet.Name, -1)
-    If Inputdeck.ReadOk = True Then
-        Inputdeck.ModelSummary
+    Dim InputDeck As Text2Relap
+    Set InputDeck = NewInputdeck(ActiveSheet.Name, -1)
+    If InputDeck.ReadOk = True Then
+        InputDeck.ModelSummary
     End If
 End Sub
 

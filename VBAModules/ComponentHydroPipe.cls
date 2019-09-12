@@ -23,8 +23,8 @@ Private pBase As ComponentHydro
 '
 ' PROPERTIES
 ' Properties - Shared for all hydro components
-Public Property Get Inputdeck() As Text2Relap
-    Set Inputdeck = pBase.Inputdeck
+Public Property Get InputDeck() As Text2Relap
+    Set InputDeck = pBase.InputDeck
 End Property
 
 Public Property Get HydroSystem() As HydroSystem
@@ -102,8 +102,8 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
         pBase.Segments.Add New PropertiesHydroCompSegment
         
         ' Calculate number of volumes for pipe segment
-        length = Inputdeck.CheckInput(InputData(i, 3), Numeric:=True, valueDefault:=1, causeError:=True, FieldName:="Length", word:=3)
-        Dx = Inputdeck.CheckInput(InputData(i, 4), Numeric:=True, valueDefault:=0.2, causeError:=True, FieldName:="Dx", word:=4)
+        length = InputDeck.CheckInput(InputData(i, 3), Numeric:=True, valueDefault:=1, causeError:=True, FieldName:="Length", word:=3)
+        Dx = InputDeck.CheckInput(InputData(i, 4), Numeric:=True, valueDefault:=0.2, causeError:=True, FieldName:="Dx", word:=4)
         DxActual = CalculateDx(length, Dx)
         Volumes = length / DxActual
         VolumesTotal = VolumesTotal + Volumes
@@ -146,21 +146,21 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
             .Junctions = .JunctionLast - .JunctionFirst + 1
             .ID = InputData(i, 2)
             .Dx = DxActual
-            .Area = Inputdeck.CheckInput(InputData(i, 5), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Area", word:=5)
-            .AngleVert = Inputdeck.CheckInput(InputData(i, 6), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Vertical angle", word:=6)
-            .AngleAzi = Inputdeck.CheckInput(InputData(i, 7), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Vertical angle")
+            .Area = InputDeck.CheckInput(InputData(i, 5), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Area", word:=5)
+            .AngleVert = InputDeck.CheckInput(InputData(i, 6), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Vertical angle", word:=6)
+            .AngleAzi = InputDeck.CheckInput(InputData(i, 7), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Vertical angle")
             If PipeOverflow = False Then ' If pipe overflow, transfer K+ / K- to newPipe
-                .KLossPos = Inputdeck.CheckInput(InputData(i, 8), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K+", word:=8)
-                .KLossNeg = Inputdeck.CheckInput(InputData(i, 9), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K+", word:=9)
+                .KLossPos = InputDeck.CheckInput(InputData(i, 8), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K+", word:=8)
+                .KLossNeg = InputDeck.CheckInput(InputData(i, 9), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="K+", word:=9)
             End If
             .Name = InputData(i, 10)
             .Drawing = InputData(i, 11)
-            .Roughness = Inputdeck.CheckInput(InputData(i, 17), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Roughness", word:=17)
-            .VFlags = Inputdeck.CheckInput(InputData(i, 21), Numeric:=False, valueDefault:="0000000", causeError:=False, FieldName:="Volume flags", word:=21, IsBinaryString:=True)
-            .JFlags = Inputdeck.CheckInput(InputData(i, 22), Numeric:=False, valueDefault:="00000000", causeError:=False, FieldName:="Junction flags", word:=22, IsBinaryString:=True)
+            .Roughness = InputDeck.CheckInput(InputData(i, 17), Numeric:=True, valueDefault:=0, causeError:=True, FieldName:="Roughness", word:=17)
+            .VFlags = InputDeck.CheckInput(InputData(i, 21), Numeric:=False, valueDefault:="0000000", causeError:=False, FieldName:="Volume flags", word:=21, IsBinaryString:=True)
+            .JFlags = InputDeck.CheckInput(InputData(i, 22), Numeric:=False, valueDefault:="00000000", causeError:=False, FieldName:="Junction flags", word:=22, IsBinaryString:=True)
             Set .Init = pBase.Init
             
-            .ForceNumber = Inputdeck.CheckInput(InputData(i, 12), Numeric:=True, valueDefault:=0, causeError:=False, FieldName:="Force number", word:=12)
+            .ForceNumber = InputDeck.CheckInput(InputData(i, 12), Numeric:=True, valueDefault:=0, causeError:=False, FieldName:="Force number", word:=12)
             If .ForceNumber <> 0 Then
                 Dim ForceStr As String
                 ForceStr = "Force" & CStr(.ForceNumber)
@@ -179,8 +179,8 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
     '   1. Create a connecting junction
     '   2. Create a new pipe component
     If PipeOverflow = True Or insertJunction = True Then
-        Dim newJunction As InputObject
-        Set newJunction = InputData.MakeCopy()
+        Dim NewJunction As InputObject
+        Set NewJunction = InputData.MakeCopy()
         
         Dim FromCode As String, ToCode As String
         
@@ -189,8 +189,8 @@ Public Sub Create(InputData As InputObject, ByRef BaseComponent As ComponentHydr
         FromCode = Chr(34) & Format(Settings.CurrentCCC - Settings.CCCIncrement, "000") & Format(99, "00\0\0\0\2") & Chr(34)
         ToCode = Chr(34) & Format(Settings.CurrentCCC + Settings.CCCIncrement, "000") & Format(1, "00\0\0\0\1") & Chr(34)
         
-        newJunction.SetDataFromWords Word1:="Junction", Word5:=0#, Word8:=0#, Word9:=0#, Word10:=InputData(i, 10), Word13:=FromCode, Word14:=ToCode, Word15:=2, Word16:=1, Word21:="tlpvbfe", Word22:=InputData(i, 22)
-        HydroSystem.Components.Add HydroComp, newJunction
+        NewJunction.SetDataFromWords Word1:="Junction", Word5:=0#, Word8:=0#, Word9:=0#, Word10:=InputData(i, 10), Word13:=FromCode, Word14:=ToCode, Word15:=2, Word16:=1, Word21:="tlpvbfe", Word22:=InputData(i, 22)
+        HydroSystem.Components.Add HydroComp, NewJunction
         
         ' Add a pipe component
         HydroSystem.Components.Add HydroComp, newPipe
