@@ -59,20 +59,7 @@ Public Property Get Data(Optional FirstRow As Long = -1, Optional LastRow As Lon
             newData(i - FirstRow + 1, j) = pData(i, j)
         Next j
     Next i
-    
-    Debug.Print vbNewLine & "newData is:"
-    Dim rowString As String
-    For i = LBound(newData, 1) To UBound(newData, 1)
-        rowString = "Row " & i & ": "
-        For j = LBound(newData, 2) To UBound(newData, 2)
-            rowString = rowString & newData(i, j) & IIf(j < UBound(newData, 2), ", ", "")
-        Next j
-        Debug.Print rowString
-    Next i
-    
-    
     Data = newData
-
 End Property
 
 
@@ -101,7 +88,6 @@ Public Sub CreateFromParts(SheetName As String, row1 As Long, row2 As Long, Opti
     pSheetname = SheetName
     pRow1 = row1
     pRow2 = row2
-    pData = Data
 End Sub
 
 Public Function Item(Row As Long, Col As Long) As Variant
@@ -142,17 +128,44 @@ Public Function MakeCopy(Optional OnlyRowN As Long = -1, Optional FirstRow As Lo
 '
     Dim copyOfSelf As New InputObject
     
-    Dim row1 As Long, row2 As Long
-    row1 = IIf(FirstRow = -1, pRow1, pRow1 + FirstRow - 1)
-    row2 = IIf(LastRow = -1, pRow2, pRow1 + LastRow - 1)
+    Dim i As Long, j As Long
+    Dim sourceRow1 As Long, sourceRow2 As Long
+    
+    
+    Dim newData As Variant
     
     If OnlyRowN <> -1 Then
-        row1 = pRow1 + OnlyRowN - 1
-        row2 = pRow1 + OnlyRowN - 1
+        ReDim newData(1 To 1, 1 To NumberOfColumns)
+        For i = LBound(pData, 2) To UBound(pData, 2)
+            newData(1, i) = pData(OnlyRowN, i)
+        Next i
+    
+        sourceRow1 = Me.RowFirst + OnlyRowN - 1
+        sourceRow2 = Me.RowFirst + OnlyRowN - 1
+    ElseIf FirstRow = -1 And LastRow = -1 Then
+        ReDim newData(LBound(pData, 1) To UBound(pData, 1), LBound(pData, 2) To UBound(pData, 2))
+        For i = LBound(pData, 1) To UBound(pData, 1)
+            For j = LBound(pData, 2) To UBound(pData, 2)
+                newData(i, j) = pData(i, j)
+            Next j
+        Next i
+        sourceRow1 = Me.RowFirst
+        sourceRow2 = Me.RowLast
+    Else
+        FirstRow = IIf(FirstRow = -1, 1, FirstRow)
+        LastRow = IIf(LastRow = -1, UBound(pData, 1), LastRow)
+        ReDim newData(1 To LastRow - FirstRow + 1, LBound(pData, 2) To UBound(pData, 2))
+        For i = 1 To LastRow - FirstRow + 1
+            For j = LBound(pData, 2) To UBound(pData, 2)
+                newData(i, j) = pData(FirstRow + i - 1, j)
+            Next j
+        Next i
+        sourceRow1 = Me.RowFirst + FirstRow - 1
+        sourceRow2 = Me.RowFirst + LastRow - 1
     End If
     
     With copyOfSelf
-        .CreateFromParts pSheetname, row1, row2, Data(FirstRow:=FirstRow, LastRow:=LastRow)
+        .CreateFromParts pSheetname, sourceRow1, sourceRow2, newData
     End With
     
     Set MakeCopy = copyOfSelf

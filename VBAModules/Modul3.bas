@@ -25,25 +25,32 @@ End Sub
 
 Sub debuggg()
     Dim inputObj As New InputObject
-    inputObj.Create Range("A50:B53")
+    inputObj.Create Range("A1:V1000")
+    'inputObj.CreateFromParts "324", 1, 15
     
-    inputObj.MakeCopy(OnlyRowN:=3).Highlight
-    Debug.Print inputObj.NumberOfColumns
-    Debug.Print inputObj.NumberOfRows
-    Debug.Print inputObj.RowFirst
-    Debug.Print inputObj.RowLast
+    Dim inputObjChild As InputObject
     
-    Dim apa As HydroSystem
+    Set inputObjChild = inputObj.MakeCopy(OnlyRowN:=83)
+    Set inputObjChild = inputObj.MakeCopy()
+    Set inputObjChild = inputObj.MakeCopy(FirstRow:=83, LastRow:=84)
+    Debug.Print inputObjChild.NumberOfColumns
+    Debug.Print inputObjChild.NumberOfRows
+    Debug.Print inputObjChild.RowFirst
+    Debug.Print inputObjChild.RowLast
+    
+    
+    
     
 End Sub
 
 
 
-Sub testinit()
+Public Sub My_Split()
 
-    Dim apa As Variant
-    Debug.Print "Hej"
-    ReDim apa(1 To 1, 1 To 22)
-    Debug.Print "Då"
+Dim z As Variant
+
+z = Split(Replace(Join(Filter(Split(Replace(Replace(Selection.Value, ")", "^#"), "(", "#^"), "#"), "^"), "|"), "^", ""), "|")
+
+Selection.Offset(0, 1).Resize(, UBound(z) + 1) = z
 
 End Sub
