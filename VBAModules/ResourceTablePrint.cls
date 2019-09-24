@@ -371,7 +371,7 @@ End Sub
 Public Function GetDefaultFormat(OutputType As EnumDefaults) As String
     
     Dim i As Integer
-    Dim Result As String
+    Dim result As String
     
     If UBound(Defaults) = 0 Then
         MsgBox "Default values not initialized. Use 'SetDefaults' to initiate them", vbCritical
@@ -383,20 +383,20 @@ Public Function GetDefaultFormat(OutputType As EnumDefaults) As String
     For i = LBound(Defaults) To UBound(Defaults)
         If IsEmpty(Defaults(i)) = False Then
             If Defaults(i)(0) = OutputType Then
-                Result = Defaults(i)(2)
+                result = Defaults(i)(2)
                 Exit For
             End If
         End If
     Next i
     
-    GetDefaultFormat = Result
+    GetDefaultFormat = result
     
 End Function
 
 Public Function GetFormattedValue(ByVal Value As Variant, ByVal OutputType As EnumDefaults) As String
     
     Dim i As Integer
-    Dim Result As String
+    Dim result As String
     Dim s As New ResourceSprintf
     
     If UBound(Defaults) = 0 Then
@@ -409,13 +409,13 @@ Public Function GetFormattedValue(ByVal Value As Variant, ByVal OutputType As En
     For i = LBound(Defaults) To UBound(Defaults)
         If IsEmpty(Defaults(i)) = False Then
             If Defaults(i)(0) = OutputType Then
-                Result = s.sprintf(Defaults(i)(2), Value)
+                result = s.sprintf(Defaults(i)(2), Value)
                 Exit For
             End If
         End If
     Next i
     
-    GetFormattedValue = Result
+    GetFormattedValue = result
     
 End Function
 '

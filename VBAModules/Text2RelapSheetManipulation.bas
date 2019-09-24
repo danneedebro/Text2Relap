@@ -40,8 +40,8 @@ Sub ResetFormat()
     Set myRange = Range(Cells(Selection.Rows(1).Row, 1), Cells(Selection.Rows(1).Row + Selection.Rows.Count, 22))
     
     ' Returns the address of the first word. Used in formulas
-    Dim firstRow As Long
-    firstRow = myRange(1).Row
+    Dim FirstRow As Long
+    FirstRow = myRange(1).Row
     
     myRange.FormatConditions.Delete
     'myRange.Interior.Pattern = xlNone
@@ -51,7 +51,7 @@ Sub ResetFormat()
     Dim formulaCurr As String
 
     ' PIPE
-    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pipe""", firstRow))
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pipe""", FirstRow))
     i = 0
     formatProperties(i) = AddFConditions("", Array(1, 17, 21), Array(12, 17, 22), colorPipe)
     formatProperties(i).Formula = formulaCurr
@@ -61,7 +61,7 @@ Sub ResetFormat()
     formatProperties(i).Formula = formulaCurr
     
     ' TMDPVOL
-    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tmdpvol""", firstRow))
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tmdpvol""", FirstRow))
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1, 5, 10, 17, 21), Array(3, 7, 11, 18, 22), colorVolume)
     formatProperties(i).Formula = formulaCurr
@@ -71,7 +71,7 @@ Sub ResetFormat()
     formatProperties(i).Formula = formulaCurr
     
     ' SNGLVOL
-    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Snglvol""", firstRow))
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Snglvol""", FirstRow))
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1, 5, 10, 17, 21), Array(3, 7, 11, 18, 22), colorVolume)
     formatProperties(i).Formula = formulaCurr
@@ -81,7 +81,7 @@ Sub ResetFormat()
     formatProperties(i).Formula = formulaCurr
     
     ' SNGLJUN or JUNCTION
-    formulaCurr = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Sngljun"",$A%1$d=""Junction"")", firstRow))
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Sngljun"",$A%1$d=""Junction"")", FirstRow))
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1, 5, 8, 13, 21), Array(2, 5, 11, 16, 22), colorJunction)
     formatProperties(i).Formula = formulaCurr
@@ -91,7 +91,7 @@ Sub ResetFormat()
     formatProperties(i).Formula = formulaCurr
     
     ' MTRVLV or SRVVLV or CHKVLV or TRPVLV or TMDPJUN pr INRVLV
-    formulaCurr = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Mtrvlv"",$A%1$d=""Srvvlv"",$A%1$d=""Trpvlv"",$A%1$d=""Chkvlv"",$A%1$d=""Inrvlv"",$A%1$d=""Tmdpjun"")", firstRow))
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Mtrvlv"",$A%1$d=""Srvvlv"",$A%1$d=""Trpvlv"",$A%1$d=""Chkvlv"",$A%1$d=""Inrvlv"",$A%1$d=""Tmdpjun"")", FirstRow))
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1, 5, 8, 13, 20), Array(2, 5, 11, 16, 22), colorJunction)
     formatProperties(i).Formula = formulaCurr
@@ -101,7 +101,7 @@ Sub ResetFormat()
     formatProperties(i).Formula = formulaCurr
     
     ' PUMP
-    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pump""", firstRow))
+    formulaCurr = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Pump""", FirstRow))
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1, 5, 13, 18), Array(3, 11, 16, 22), colorJunction)
     formatProperties(i).Formula = formulaCurr
@@ -113,47 +113,47 @@ Sub ResetFormat()
     ' Relapnr
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(2), colorMisc)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Relapnr""", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Relapnr""", FirstRow))
     
     ' Init or InitGas
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(3), colorMisc)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Init"",$A%1$d=""InitGas"")", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Init"",$A%1$d=""InitGas"")", FirstRow))
     
     ' Timestep
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(5), colorMisc)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Timestep""", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Timestep""", FirstRow))
     
     ' Replacements or triggerwords
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(2), colorMisc)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Replacements"",$A%1$d=""Triggerwords"")", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=OR($A%1$d=""Replacements"",$A%1$d=""Triggerwords"")", FirstRow))
     
     ' Custom
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(2), colorMisc)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Custom""", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Custom""", FirstRow))
     
     ' Tripvar
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(9), colorTrip)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tripvar""", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Tripvar""", FirstRow))
     
     ' Triplog
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(1), Array(6), colorTrip)
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Triplog""", firstRow))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=$A%1$d=""Triplog""", FirstRow))
         
     ' Format conditions: Color of toId and toNode turns grey if the points to the following component and connects to node 2
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(13), Array(13), FontColor:=RGB(128, 128, 128))
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Sngljun"", $A%1$d=""Mtrvlv"", $A%1$d=""Srvvlv"", $A%1$d=""Chkvlv"", $A%1$d=""Inrvlv"", $A%1$d=""Pump""),$M%1$d=$B%2$d,$O%1$d=2,ISTEXT($M%2$d))", firstRow, firstRow - 2))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Sngljun"", $A%1$d=""Mtrvlv"", $A%1$d=""Srvvlv"", $A%1$d=""Chkvlv"", $A%1$d=""Inrvlv"", $A%1$d=""Pump""),$M%1$d=$B%2$d,$O%1$d=2,ISTEXT($M%2$d))", FirstRow, FirstRow - 2))
        
     ' Format conditions: Color of toId and toNode turns grey if the points to the following component and connects to node 1
     i = i + 1
     formatProperties(i) = AddFConditions("", Array(14), Array(14), FontColor:=RGB(128, 128, 128))
-    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Sngljun"", $A%1$d=""Mtrvlv"", $A%1$d=""Srvvlv"", $A%1$d=""Chkvlv"", $A%1$d=""Inrvlv"", $A%1$d=""Pump""),$N%1$d=$B%2$d,$P%1$d=1,ISTEXT($N%2$d))", firstRow, firstRow + 2))
+    formatProperties(i).Formula = ConvertToLocalFormula(s.sprintf("=AND(OR($A%1$d=""Junction"", $A%1$d=""Sngljun"", $A%1$d=""Mtrvlv"", $A%1$d=""Srvvlv"", $A%1$d=""Chkvlv"", $A%1$d=""Inrvlv"", $A%1$d=""Pump""),$N%1$d=$B%2$d,$P%1$d=1,ISTEXT($N%2$d))", FirstRow, FirstRow + 2))
         
     ReDim Preserve formatProperties(i)
     
