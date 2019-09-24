@@ -1,11 +1,11 @@
 Attribute VB_Name = "Modul2"
 Function Lista() As Variant
 
-    Dim Result(1 To 3) As Variant
+    Dim result(1 To 3) As Variant
     
-    Result(1) = "HEJ"
-    Result(2) = "DÅ"
-    Result(3) = "GE"
+    result(1) = "HEJ"
+    result(2) = "DÅ"
+    result(3) = "GE"
 
     Dim s As New ResourceSprintf
     

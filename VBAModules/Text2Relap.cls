@@ -404,25 +404,25 @@ End Function
 Public Sub HighlightCurrentLines(Optional ByVal word As Integer = -1, Optional ByVal SelectRow As Integer = -1)
 ' Action: Higlights a certain row
 '
-    Dim firstRow As Integer, LastRow As Integer
+    Dim FirstRow As Integer, LastRow As Integer
     
     If SelectRow = -1 Then
-        firstRow = currLine1
+        FirstRow = currLine1
         LastRow = currLine2
     Else
-        firstRow = SelectRow
+        FirstRow = SelectRow
         LastRow = SelectRow
     End If
     
 
     Debug.Print "Hello"
     If word = -1 Or word > InputRange.Columns.Count Then
-        Range(InputRange.Rows(firstRow), InputRange.Rows(LastRow)).Select
+        Range(InputRange.Rows(FirstRow), InputRange.Rows(LastRow)).Select
     Else
         If currLine2 > currLine1 Then
-            Range(InputRange.Rows(firstRow), InputRange.Rows(LastRow)).Columns(word).Select
+            Range(InputRange.Rows(FirstRow), InputRange.Rows(LastRow)).Columns(word).Select
         Else
-            InputRange.Rows(firstRow).Columns(word).Select
+            InputRange.Rows(FirstRow).Columns(word).Select
         End If
     End If
 End Sub
@@ -517,7 +517,7 @@ ErrorHandler:
     
 End Function
 
-Public Sub ProbeInput(ByVal Row1 As Integer, ByVal Row2 As Integer, OutputType As Integer)
+Public Sub ProbeInput(ByVal row1 As Integer, ByVal row2 As Integer, OutputType As Integer)
 ' Action: Probe input
 '
 ' Inputs:
@@ -539,7 +539,7 @@ Public Sub ProbeInput(ByVal Row1 As Integer, ByVal Row2 As Integer, OutputType A
 
     For i = 1 To HydroSystem.Components.Count
         With HydroSystem.Components(i)
-            If (.RowBegin >= Row1 And .RowBegin <= Row2) Or (.RowEnd >= Row1 And .RowEnd <= Row2) Or (.RowBegin <= Row1 And .RowEnd >= Row2) Then
+            If (.RowBegin >= row1 And .RowBegin <= row2) Or (.RowEnd >= row1 And .RowEnd <= row2) Or (.RowBegin <= row1 And .RowEnd >= row2) Then
                 If OutputType = 0 Then
                     
                     ts.WriteLine .ComponentInfo

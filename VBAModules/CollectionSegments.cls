@@ -14,7 +14,12 @@ Private pSegments As Collection
 '
 '
 ' PROPERTIES
-
+Public Property Get NewEnum() As IUnknown
+Attribute NewEnum.VB_UserMemId = -4
+Attribute NewEnum.VB_MemberFlags = "40"
+' Action: Enables for each loops (VB_UserMemId = -4)
+    Set NewEnum = pSegments.[_NewEnum]
+End Property
 '
 '
 ' CLASS EVENT METHODS
@@ -37,8 +42,4 @@ End Function
 '
 '
 ' CLASS METHODS
-
-'
-'
-' STATIC METHODS
 

@@ -23,7 +23,7 @@ Private Sub TestInputObject()
     Debug.Assert InputDataChild.RowLast = 6
     Debug.Assert InputDataChild(1, 1) = InputData(2, 1)
     
-    Set InputDataChild = InputData.MakeCopy(firstRow:=2) ' Row A6:C20
+    Set InputDataChild = InputData.MakeCopy(FirstRow:=2) ' Row A6:C20
     Debug.Assert InputDataChild.RowFirst = 6
     Debug.Assert InputDataChild.RowLast = 20
     
@@ -50,19 +50,19 @@ End Sub
 
 
 Private Sub TestHydroComponents()
-    Dim InputDeck As New Text2Relap
-    InputDeck.Create ThisWorkbook.ActiveSheet.Name
+    'Dim InputDeck As New Text2Relap
+    'InputDeck.Create ThisWorkbook.ActiveSheet.Name
     
-    Dim HydroSystem As New HydroSystem
-    HydroSystem.Create InputDeck
+    'Dim HydroSystem As New HydroSystem
+    'HydroSystem.Create InputDeck
     
-    Dim NewJunction As New ComponentHydro
+    'Dim NewJunction As New ComponentHydro
     
-    Dim InputData As New InputObject
-    InputData.CreateFromParts "", 15, 15
-    InputData.SetDataFromWords Word1:="Junction"
+    'Dim InputData As New InputObject
+    'InputData.CreateFromParts "", 15, 15
+    'InputData.SetDataFromWords Word1:="Junction"
     
-    NewJunction.Create InputData, HydroSystem
+    'NewJunction.Create InputData, HydroSystem
 
 
 End Sub
@@ -72,9 +72,7 @@ Private Sub TestCntrlvar()
     Dim ts As New ResourceTextStreamDummy
 
     Dim newCntrlvar As New ComponentCntrlvar
-    newCntrlvar.Create CntrlvarSum
-    newCntrlvar.CCC = 999
-    newCntrlvar.CntrlvarFormat = 999
+    newCntrlvar.Create CntrlvarSum, CCC:=52, CntrlvarFormat:=9999
     
     newCntrlvar.AddCvInput 0#, 0.21, "mflowj", "101010000"
     newCntrlvar.AddCvInput 0.21, "mflowj", "101010000"

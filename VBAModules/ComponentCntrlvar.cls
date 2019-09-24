@@ -43,7 +43,7 @@ Private Property Get iComponent_ObjectType() As R5Component
 End Property
 
 Private Function iComponent_ComponentInfo() As String
-    iComponent_ComponentInfo = "cntrlvar no: " & Me.CntrlvarNumber
+    iComponent_ComponentInfo = "cntrlvar no: " & Me.CCC
 End Function
 
 Private Property Get iComponent_RowBegin() As Integer
@@ -82,8 +82,11 @@ Private Sub Class_Initialize()
     Set CvInput = New Collection
 End Sub
 
-Public Sub Create(CntrlvarType As CntrlvarTypes, Optional ScalingFactor As Double = 1#, Optional InitialValue As Double = 0#)
+Public Sub Create(CntrlvarType As CntrlvarTypes, Optional CCC As Integer = -1, Optional CntrlvarFormat As Integer = 999, Optional CntrlvarID As String = "", Optional ScalingFactor As Double = 1#, Optional InitialValue As Double = 0#)
     On Error GoTo ErrorHandler
+    
+    If CCC <> -1 Then Me.CCC = CCC
+    Me.CntrlvarFormat = CntrlvarFormat
     
     pRowBegin = 0
     pRowEnd = 0
@@ -93,7 +96,13 @@ Public Sub Create(CntrlvarType As CntrlvarTypes, Optional ScalingFactor As Doubl
     End With
         
     pCntrlvarType = CntrlvarType
-    pID = "Id"
+    If CntrlvarID = "" And CCC <> -1 Then
+        pID = "Cv" & Format(CCC, "0000")
+    ElseIf CntrlvarID = "" Then
+        pID = "Cv"
+    Else
+        pID = CntrlvarID
+    End If
     
     Exit Sub
 ErrorHandler:
@@ -138,6 +147,9 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
                 ts.WriteLine s.sprintf(cvString & "          % 7.5f  %-8s  %s", CCC, (i + 1) / 3, CvInput(i), CvInput(i + 1), CvInput(i + 2))
             Next i
             
+        Case CntrlvarDiv
+            ts.WriteLine s.sprintf(cvString & " %-8s  %-8s  %7.3g  %7.3g  %1d", CCC, 0, ID, "div", ScalingFactor, InitialValue, InitialValueFlag)
+            ts.WriteLine s.sprintf(cvString & " %s %s %s %s", CCC, 1, CvInput(1), CvInput(2), CvInput(3), CvInput(4))
             
         Case Else
             
@@ -147,5 +159,6 @@ Public Sub WriteToFile(ByRef ts As Object, ByVal wC As Boolean)
     
     Exit Sub
 ErrorHandler:
+    Stop
     Err.Raise Err.Number, TypeName(Me) & ".WriteToFile, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
