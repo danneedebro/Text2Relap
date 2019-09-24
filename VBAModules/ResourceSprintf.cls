@@ -234,10 +234,10 @@ Private Function GetFormatSpec(FormatSpec As String) As TFormatSpec
     Dim SubStr As String
     Dim tmpVal As Double
     Dim Parts() As String
-    Dim Result As TFormatSpec
+    Dim result As TFormatSpec
     
     
-    With Result
+    With result
         ' Set defaults
         .Precision = -1  ' Means depends
     
@@ -306,7 +306,7 @@ Private Function GetFormatSpec(FormatSpec As String) As TFormatSpec
     End With
 
 TheEnd:
-    GetFormatSpec = Result
+    GetFormatSpec = result
     
 End Function
 

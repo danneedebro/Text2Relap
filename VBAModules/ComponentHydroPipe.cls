@@ -175,13 +175,6 @@ Public Sub Create(inputRows() As Variant, ByRef BaseComponent As ComponentHydro)
             Set .Init = pBase.Init
             
             .ForceNumber = InputDeck.CheckInput(inputRows(i, 12), Numeric:=True, valueDefault:=0, causeError:=False, FieldName:="Force number", word:=12)
-            If .ForceNumber <> 0 Then
-                Dim ForceStr As String
-                ForceStr = "Force" & CStr(.ForceNumber)
-                HydroSystem.Force(ForceStr).ForceNumber = .ForceNumber
-                HydroSystem.Force(ForceStr).ComponentIndexes.Add CurrPipeCompInd
-                HydroSystem.Force(ForceStr).SegmentIndexes.Add i
-            End If
         End With
         
         If PipeOverflow = True Then Exit For

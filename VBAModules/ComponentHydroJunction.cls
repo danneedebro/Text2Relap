@@ -662,7 +662,7 @@ Private Sub WritePump(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal Ge
         t.AddLine "*** HOMOLOGOUS PUMP CURVES ***"
                 
         Dim CurveType As Integer, CurveRegime As Integer, i As Integer
-        Dim CardNum As Integer
+        Dim cardNum As Integer
     
         Dim Pumpcurves As Variant
         Pumpcurves = GetPumpcurves()
@@ -672,20 +672,20 @@ Private Sub WritePump(ByRef ts As Object, ByVal wC As Boolean, Optional ByVal Ge
         tmpArr2 = Array("Q>0", "Q>0", "Q<0", "Q<0", "Q<0", "Q<0", "Q>0", "Q>0")
         tmpArr3 = Array("N>0", "N>0", "N>0", "N>0", "N<0", "N<0", "N<0", "N<0")
         
-        CardNum = 1000
+        cardNum = 1000
         For CurveType = 1 To 2
             For CurveRegime = 1 To 8
-                CardNum = CardNum + 100
+                cardNum = cardNum + 100
                 t.AddLine "*"
                 t.AddLine "* {}{} ({}, {})", IIf(CurveType = 1, "H", "B"), CStr(tmpArr(CurveRegime - 1)), CStr(tmpArr2(CurveRegime - 1)), CStr(tmpArr3(CurveRegime - 1))
-                t.AddLine "{ }{  }  {}  {}", pCCC, card.Update(CardNum), CurveType, CurveRegime
+                t.AddLine "{ }{  }  {}  {}", pCCC, card.Update(cardNum), CurveType, CurveRegime
                 If CurveRegime Mod 2 = 0 Then  ' 2=HVN, 4=HVD, 6=HVT, 8=HVR  (a/v and h/v^2)
                     t.AddLine "*             a/v     {}/v^2", IIf(CurveType = 1, "h", "b")
                 Else  ' 1=HAN, 3=HAD, 5=HAT, 7=HAR  (v/a and h/a^2)
                     t.AddLine "*             v/a     {}/a^2", IIf(CurveType = 1, "h", "b")
                 End If
                 For i = 0 To UBound(Pumpcurves(CurveType, CurveRegime, 1))
-                    t.AddLine "{ }{  }   {}   {}", pCCC, card.Update(CardNum + i + 1), t.Args(Pumpcurves(CurveType, CurveRegime, 1)(i), FStr:="% 6.4f"), t.Args(Pumpcurves(CurveType, CurveRegime, 2)(i), FStr:="% 6.4f")
+                    t.AddLine "{ }{  }   {}   {}", pCCC, card.Update(cardNum + i + 1), t.Args(Pumpcurves(CurveType, CurveRegime, 1)(i), FStr:="% 6.4f"), t.Args(Pumpcurves(CurveType, CurveRegime, 2)(i), FStr:="% 6.4f")
                 Next i
                 
                 ts.WriteLine t.WriteAndClear

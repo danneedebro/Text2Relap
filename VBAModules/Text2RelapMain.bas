@@ -103,13 +103,13 @@ End Sub
 Function ReadInputAndWriteToFile(ByVal Filename As String) As TFileWriteStatus
 ' Action: Creates a input file
 '
-    Dim Result As TFileWriteStatus
+    Dim result As TFileWriteStatus
     
     Dim InputDeck As Text2Relap
     Set InputDeck = NewInputdeck(ActiveSheet.Name)
     Dim InputFile As New ResourceFileObject
     
-    Result.Filename = Filename
+    result.Filename = Filename
     
     If InputDeck.ReadOk = True Then
         If InStr(1, Filename, ":") > 0 Then   ' If Full path supplied
@@ -122,31 +122,31 @@ Function ReadInputAndWriteToFile(ByVal Filename As String) As TFileWriteStatus
             InputFile.CreateFolders
         End If
     
-        Result.RelativePath = InputFile.getRelativePath(ThisWorkbook.Path)
-        Result.FullPath = InputFile.FullPath
-        Result.Filename = InputFile.Filename
+        result.RelativePath = InputFile.getRelativePath(ThisWorkbook.Path)
+        result.FullPath = InputFile.FullPath
+        result.Filename = InputFile.Filename
     
         If InputDeck.WriteToFile(InputFile.FullPath) = True Then
-            Result.FileWritten = True
+            result.FileWritten = True
             If InputDeck.Warnings = False Then
-                Result.message = "Info: " & InputFile.FullPath & " created successfully"
-                Result.Warnings = False
+                result.message = "Info: " & InputFile.FullPath & " created successfully"
+                result.Warnings = False
             Else
-                Result.message = "Warning: " & InputFile.FullPath & " created with warnings"
-                Result.Warnings = True
+                result.message = "Warning: " & InputFile.FullPath & " created with warnings"
+                result.Warnings = True
             End If
         Else
-            Result.FileWritten = False
-            Result.Warnings = True
-            Result.message = "Error: " & InputFile.FullPath & " NOT created successfully"
+            result.FileWritten = False
+            result.Warnings = True
+            result.message = "Error: " & InputFile.FullPath & " NOT created successfully"
         End If
     Else
-        Result.FileWritten = False
-        Result.Warnings = True
-        Result.Abort = False
+        result.FileWritten = False
+        result.Warnings = True
+        result.Abort = False
     End If
     
-    ReadInputAndWriteToFile = Result
+    ReadInputAndWriteToFile = result
     
 End Function
 
@@ -156,20 +156,20 @@ Attribute ProbeOutput.VB_ProcData.VB_Invoke_Func = "I\n14"
 ' Action: Probe Output by selecting cells with rows that contain a plotted output
 '
     Dim SelectedRange As Range
-    Dim Row1 As Integer, Row2 As Integer
+    Dim row1 As Integer, row2 As Integer
     
     If TypeName(Selection) = "Range" Then
         Set SelectedRange = Selection
         With SelectedRange
-            Row1 = .Rows(1).Row
-            Row2 = .Rows(.Rows.Count).Row
+            row1 = .Rows(1).Row
+            row2 = .Rows(.Rows.Count).Row
         End With
 
         Dim InputDeck As Text2Relap
         Set InputDeck = NewInputdeck(ActiveSheet.Name)
         If InputDeck.ReadOk = True Then
-            InputDeck.ProbeInput Row1, Row2, 0
-            InputDeck.ProbeInput Row1, Row2, 3
+            InputDeck.ProbeInput row1, row2, 0
+            InputDeck.ProbeInput row1, row2, 3
         Else
             MsgBox "Failed to read"
         End If

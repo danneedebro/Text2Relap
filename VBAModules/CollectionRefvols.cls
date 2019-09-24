@@ -47,8 +47,3 @@ End Function
 '
 '
 ' CLASS METHODS
-
-'
-'
-' STATIC METHODS
-
