@@ -429,7 +429,7 @@ Private Sub MakeForces()
                         CvN.AddCvInput 0#, 1#, "cntrlvar", CStr(cvCCCPrev)
                         CvN.AddCvInput .Item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .Item(j), k)
                         cvCCCPrev = CvN.CCC
-                        cardNum = 1
+                        cardNum = 2
                     Else
                         CvN.AddCvInput .Item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .Item(j), k)
                     End If
@@ -454,7 +454,7 @@ Private Sub MakeForces()
             Set CvN = New ComponentCntrlvar
             Components.AddObject CvN
             CvN.Create CntrlvarDiv, CCC:=i, CntrlvarFormat:=Settings.CntrlvarFormat, ScalingFactor:=-1#
-            Settings.IncrementCntrlvar
+            'Settings.IncrementCntrlvar
             
             CvN.AddCvInput "dt", "0", "cntrlvar", CStr(cvCCCPrev)
             

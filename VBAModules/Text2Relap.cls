@@ -40,7 +40,7 @@ Private Const DEFAULT_INPUT_WORKSHEET As String = "text2relap"
 Private Const DEFAULT_INPUT_RANGE_LASTROW As Integer = 1000
 
 Private Const TEXT2RELAP_VERSION = "2.0.0"
-Private Const TEXT2RELAP_BRANCH = "beta.2"
+Private Const TEXT2RELAP_BRANCH = "beta.3"
 
 Private InputRange As Range
 Private pHydroSystem As HydroSystem
