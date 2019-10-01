@@ -31,9 +31,9 @@ Public Sub Add(ByVal NewSegment As PropertiesHydroCompSegment)
     pSegments.Add NewSegment
 End Sub
 
-Public Function Item(index As Variant) As PropertiesHydroCompSegment
-Attribute Item.VB_UserMemId = 0
-    Set Item = pSegments(index)
+Public Function item(index As Variant) As PropertiesHydroCompSegment
+Attribute item.VB_UserMemId = 0
+    Set item = pSegments(index)
 End Function
 
 Public Function Count() As Long

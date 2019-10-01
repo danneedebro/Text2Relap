@@ -417,21 +417,21 @@ Private Sub MakeForces()
             
             ' Loop from 'junctionFirst' to 'junctionLast'
             For j = 1 To forceMatrix(i).Count Step 4
-                For k = .Item(j + 1) To .Item(j + 2)
+                For k = .item(j + 1) To .item(j + 2)
                     cardNum = cardNum + 1
                     If cardNum = 1 Then
-                        CvN.AddCvInput 0#, .Item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .Item(j), k)
+                        CvN.AddCvInput 0#, .item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .item(j), k)
                     ElseIf cardNum = cardNumMax Then
                         Set CvN = New ComponentCntrlvar
                         Components.AddObject CvN
                         CvN.Create CntrlvarSum, CCC:=Settings.CurrentCntrlvarNum, CntrlvarFormat:=Settings.CntrlvarFormat
                         Settings.IncrementCntrlvar
                         CvN.AddCvInput 0#, 1#, "cntrlvar", CStr(cvCCCPrev)
-                        CvN.AddCvInput .Item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .Item(j), k)
+                        CvN.AddCvInput .item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .item(j), k)
                         cvCCCPrev = CvN.CCC
                         cardNum = 2
                     Else
-                        CvN.AddCvInput .Item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .Item(j), k)
+                        CvN.AddCvInput .item(j + 3), "mflowj", s.sprintf("%03d%02d0000", .item(j), k)
                     End If
                     
                     'Debug.Print s.sprintf("%7.5f  mflowj %03d%02d0000", .Item(j + 3), .Item(j), k)

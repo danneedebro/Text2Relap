@@ -31,9 +31,9 @@ Public Sub Add(ByVal NewConnection As PropertiesHydroCompConnection)
     pConnections.Add NewConnection
 End Sub
 
-Public Function Item(index As Variant) As PropertiesHydroCompConnection
-Attribute Item.VB_UserMemId = 0
-    Set Item = pConnections(index)
+Public Function item(index As Variant) As PropertiesHydroCompConnection
+Attribute item.VB_UserMemId = 0
+    Set item = pConnections(index)
 End Function
 
 Public Function Count() As Long

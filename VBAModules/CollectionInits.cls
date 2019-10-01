@@ -55,9 +55,9 @@ ErrorHandler:
     Err.Raise Err.Number, TypeName(Me) & ".Add, " & Err.Source, Err.Description, Err.HelpFile, Err.HelpContext
 End Sub
 
-Public Function Item(index As Variant) As PropertiesHydroCompInit
-Attribute Item.VB_UserMemId = 0
-    Set Item = pInits(index)
+Public Function item(index As Variant) As PropertiesHydroCompInit
+Attribute item.VB_UserMemId = 0
+    Set item = pInits(index)
 End Function
 
 Public Function CurrentInit() As PropertiesHydroCompInit

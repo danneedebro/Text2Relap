@@ -71,11 +71,11 @@ Private Sub Class_Initialize()
     ReDim pData(1 To 1, 1 To 22)
 End Sub
 
-Public Sub Create(InputRange As Range)
-    pSheetname = InputRange.Worksheet.Name
-    pRow1 = InputRange.Row
-    pRow2 = pRow1 + InputRange.Rows.Count - 1
-    pData = InputRange
+Public Sub Create(inputRange As Range)
+    pSheetname = inputRange.Worksheet.Name
+    pRow1 = inputRange.Row
+    pRow2 = pRow1 + inputRange.Rows.Count - 1
+    pData = inputRange
 End Sub
 
 Public Sub CreateFromParts(SheetName As String, row1 As Long, row2 As Long, Optional Data As Variant)
@@ -90,9 +90,9 @@ Public Sub CreateFromParts(SheetName As String, row1 As Long, row2 As Long, Opti
     pRow2 = row2
 End Sub
 
-Public Function Item(Row As Long, Col As Long) As Variant
-Attribute Item.VB_UserMemId = 0
-    Item = pData(Row, Col)
+Public Function item(Row As Long, Col As Long) As Variant
+Attribute item.VB_UserMemId = 0
+    item = pData(Row, Col)
 End Function
 
 

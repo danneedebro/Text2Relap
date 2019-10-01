@@ -36,9 +36,9 @@ Public Sub Add(ByRef inputRows() As Variant)
     pTimesteps.Add NewTimestep
 End Sub
 
-Public Function Item(index As Variant) As PropertiesSettingsTimestep
-Attribute Item.VB_UserMemId = 0
-    Set Item = pTimesteps(index)
+Public Function item(index As Variant) As PropertiesSettingsTimestep
+Attribute item.VB_UserMemId = 0
+    Set item = pTimesteps(index)
 End Function
 
 Public Function Count() As Integer

@@ -102,7 +102,7 @@ Private Sub TestCollectionArray()
     
     For i = LBound(collectionArray) To UBound(collectionArray)
         For j = 1 To collectionArray(i).Count
-            Debug.Print collectionArray(i).Item(j)
+            Debug.Print collectionArray(i).item(j)
         Next j
     Next i
     
