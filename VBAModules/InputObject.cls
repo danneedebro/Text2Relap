@@ -90,9 +90,9 @@ Public Sub CreateFromParts(SheetName As String, row1 As Long, row2 As Long, Opti
     pRow2 = row2
 End Sub
 
-Public Function item(Row As Long, Col As Long) As Variant
-Attribute item.VB_UserMemId = 0
-    item = pData(Row, Col)
+Public Function Item(Row As Long, Col As Long) As Variant
+Attribute Item.VB_UserMemId = 0
+    Item = pData(Row, Col)
 End Function
 
 

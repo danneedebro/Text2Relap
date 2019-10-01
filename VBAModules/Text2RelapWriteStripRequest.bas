@@ -13,11 +13,7 @@ Public Sub WriteStripRequest()
     ' Select input sheet
     Dim shtInd As Integer
     shtInd = GetSheetIndex("Select sheet that contains Text2Relap input")
-    If shtInd = -1 Then
-       Exit Sub
-    Else
-       MsgBox Sheets(shtInd).Name
-    End If
+    If shtInd = -1 Then Exit Sub
     
     ' Read input sheet
     Dim InputDeck As Text2Relap
@@ -63,7 +59,7 @@ Public Sub WriteStripRequest()
     
     Dim i As Integer
     Dim stripRequestCard As Long
-    Dim item As Variant
+    Dim plotnum As Variant
     stripRequestCard = 1000
     Dim ts As New ResourceTextStreamDummy
     
@@ -94,10 +90,10 @@ Public Sub WriteStripRequest()
                         Set collectionToLoop = New Collection
                 End Select
             
-                For Each item In collectionToLoop
+                For Each plotnum In collectionToLoop
                     stripRequestCard = stripRequestCard + 1
-                    ts.WriteLine stripRequestCard & " " & inputRange(i, 2) & " " & item
-                Next item
+                    ts.WriteLine stripRequestCard & " " & inputRange(i, 2) & " " & plotnum
+                Next plotnum
                 
             ' Input for plot request file decorators used by THistPlot below
             
@@ -105,12 +101,42 @@ Public Sub WriteStripRequest()
             Case "group"
                 ts.WriteLine vbNewLine & "*<GROUP>"
             
+            Case "plot"
+                ts.WriteLine "*<PLOT>"
+            
             ' XInterval XMin XMax
             Case "xint"
                 ts.WriteLine s.sprintf("*XInt: %f %f", inputRange(i, 2), inputRange(i, 3))
                 
             Case "yint"
                 ts.WriteLine s.sprintf("*YInt: %f %f", inputRange(i, 2), inputRange(i, 3))
+                
+            Case "title"
+                ts.WriteLine s.sprintf("*Title: %s", inputRange(i, 2))
+                
+            Case "ylabel"
+                ts.WriteLine s.sprintf("*YLabel: %s", inputRange(i, 2))
+                
+            Case "xlabel"
+                ts.WriteLine s.sprintf("*XLabel: %s", inputRange(i, 2))
+                
+            Case "yscale"
+                ts.WriteLine s.sprintf("*YScale: %f", inputRange(i, 2))
+                
+            Case "yoffset"
+                ts.WriteLine s.sprintf("*YOffset: %f", inputRange(i, 2))
+                
+            Case "xscale"
+                ts.WriteLine s.sprintf("*XScale: %f", inputRange(i, 2))
+                
+            Case "xoffset"
+                ts.WriteLine s.sprintf("*XOffset: %f", inputRange(i, 2))
+                
+            Case "yspanmin"
+                ts.WriteLine s.sprintf("*YSpanMin: %f", inputRange(i, 2))
+            
+            Case "Curve"
+                ts.WriteLine s.sprintf("*Curve: %s %s", inputRange(i, 2), inputRange(i, 3))
             
             Case "labeldefault"
                 ts.WriteLine s.sprintf("*XYLabelDefaults: %s %s", inputRange(i, 2), inputRange(i, 3))

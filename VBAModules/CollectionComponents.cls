@@ -28,7 +28,7 @@ Public Property Get Subset(ComponentTypeToReturn As R5Component) As CollectionCo
     Dim i As Integer
     Dim pComponentsSubset As New CollectionComponents
     For i = 1 To Count
-        If item(i).ObjectType = ComponentTypeToReturn Then pComponentsSubset.AddObject pComponents(i)
+        If Item(i).ObjectType = ComponentTypeToReturn Then pComponentsSubset.AddObject pComponents(i)
     Next i
 
     Set Subset = pComponentsSubset
@@ -61,12 +61,12 @@ Public Sub AddObject(ByVal R5Comp As Object, Optional ByVal Key As String)
     End If
 End Sub
 
-Public Sub Add(ByVal item As R5Component, ByRef inputRows() As Variant, ByVal sourceRow1 As Integer, ByVal sourceRow2 As Integer)
+Public Sub Add(ByVal Item As R5Component, ByRef inputRows() As Variant, ByVal sourceRow1 As Integer, ByVal sourceRow2 As Integer)
     On Error GoTo ErrorHandler
     
     Dim Key As String
     
-    If item = HydroComp Then
+    If Item = HydroComp Then
         Dim NewHydroComp As New ComponentHydro
         
         Key = "CCC" & Format(HydroSystem.Settings.CurrentCCC, "000")
@@ -74,23 +74,23 @@ Public Sub Add(ByVal item As R5Component, ByRef inputRows() As Variant, ByVal so
         NewHydroComp.Create inputRows, HydroSystem, sourceRow1, sourceRow2
         HydroSystem.Settings.IncrementCCC
         
-    ElseIf item = Custom Then
+    ElseIf Item = Custom Then
         Dim NewCustomComp As New ComponentCustom
         pComponents.Add NewCustomComp
         NewCustomComp.Create inputRows, HydroSystem, sourceRow1
         
-    ElseIf item = TripLogical Or item = TripVariable Then
+    ElseIf Item = TripLogical Or Item = TripVariable Then
         Dim NewTripComp As New ComponentTrip
         NewTripComp.Create inputRows, HydroSystem, sourceRow1, sourceRow2
         Key = "TRIP=" & NewTripComp.ID
         pComponents.Add NewTripComp, Key
         
-    ElseIf item = Comment1 Or item = Comment2 Or item = Comment3 Then
+    ElseIf Item = Comment1 Or Item = Comment2 Or Item = Comment3 Then
         Dim newComment As New ComponentComment
         newComment.Create inputRows, sourceRow1, sourceRow2
         pComponents.Add newComment
         
-    ElseIf item = Header Then
+    ElseIf Item = Header Then
         Dim NewHeader As New ComponentHeader
         pComponents.Add NewHeader, "Header"
         NewHeader.Create HydroSystem, sourceRow1, sourceRow2
@@ -116,9 +116,9 @@ ErrorHandler:
     End If
 End Sub
 
-Public Function item(index As Variant) As iComponent
-Attribute item.VB_UserMemId = 0
-    Set item = pComponents(index)
+Public Function Item(index As Variant) As iComponent
+Attribute Item.VB_UserMemId = 0
+    Set Item = pComponents(index)
 End Function
 
 Public Function Count() As Long

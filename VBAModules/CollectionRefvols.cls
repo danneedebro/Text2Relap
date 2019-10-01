@@ -36,9 +36,9 @@ Public Sub Add(ByRef inputRows() As Variant)
     pRefvols.Add NewRefvol
 End Sub
 
-Public Function item(index As Variant) As PropertiesSettingsRefvol
-Attribute item.VB_UserMemId = 0
-    Set item = pRefvols(index)
+Public Function Item(index As Variant) As PropertiesSettingsRefvol
+Attribute Item.VB_UserMemId = 0
+    Set Item = pRefvols(index)
 End Function
 
 Public Function Count() As Integer
