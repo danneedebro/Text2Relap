@@ -42,7 +42,7 @@ Private Const DEFAULT_INPUT_RANGE_LASTROW As Integer = 1000
 Private Const TEXT2RELAP_VERSION = "2.0.0"
 Private Const TEXT2RELAP_BRANCH = "beta.3"
 
-Private inputRange As Range
+Private InputRange As Range
 Private pHydroSystem As HydroSystem
 Private IsInitialized As Boolean
 Private currLine1 As Integer
@@ -134,7 +134,7 @@ Public Sub Create(Optional ByVal InputWorksheet As String = "", Optional ByVal L
     ' Set Input range
     If LastRow = -1 Then LastRow = DEFAULT_INPUT_RANGE_LASTROW
     With ThisWorkbook.Worksheets(pInputSheet)
-        Set inputRange = .Range(.Cells(1, 1), .Cells(LastRow, 22))
+        Set InputRange = .Range(.Cells(1, 1), .Cells(LastRow, 22))
     End With
     
     ' Create HydroSystem
@@ -187,14 +187,14 @@ Private Function ReadInput() As Boolean
     Dim IgnoreActive As Boolean
     
     ' Sweep 1 - Read general settings
-    For i = 1 To inputRange.Rows.Count
+    For i = 1 To InputRange.Rows.Count
         ' If user cancels further reading in subroutine
         If pAbort = True Then
             ReadInput = False
             Exit Function
         End If
     
-        inputRow = RangeToArray(inputRange, i, i)
+        inputRow = RangeToArray(InputRange, i, i)
         Word1 = LCase(inputRow(1, 1))
         currLine1 = i
         currLine2 = i
@@ -216,16 +216,16 @@ Private Function ReadInput() As Boolean
     
     
     ' Sweep 2 - Read components and other things
-    For i = 1 To inputRange.Rows.Count
+    For i = 1 To InputRange.Rows.Count
         ' If user cancels further reading in subroutine
         If pAbort = True Then
             ReadInput = False
             Exit Function
         End If
         
-        If IsEmpty(inputRange(i, 1)) = True Then GoTo Next_i
+        If IsEmpty(InputRange(i, 1)) = True Then GoTo Next_i
         
-        inputRow = RangeToArray(inputRange, i, i)
+        inputRow = RangeToArray(InputRange, i, i)
         Word1 = LCase(inputRow(1, 1))
         currLine1 = i
         currLine2 = i
@@ -253,9 +253,9 @@ Private Function ReadInput() As Boolean
                 HydroSystem.Settings.Inits.Add inputRow
                 
             Case "pipe"
-                For j = i + 1 To inputRange.Rows.Count
-                    If LCase(inputRange(j, 1)) <> "pipe" Then
-                        inputRows = RangeToArray(inputRange, i, j - 1)
+                For j = i + 1 To InputRange.Rows.Count
+                    If LCase(InputRange(j, 1)) <> "pipe" Then
+                        inputRows = RangeToArray(InputRange, i, j - 1)
                         Exit For
                     End If
                 Next j
@@ -416,13 +416,13 @@ Public Sub HighlightCurrentLines(Optional ByVal word As Integer = -1, Optional B
     
 
     Debug.Print "Hello"
-    If word = -1 Or word > inputRange.Columns.Count Then
-        Range(inputRange.Rows(FirstRow), inputRange.Rows(LastRow)).Select
+    If word = -1 Or word > InputRange.Columns.Count Then
+        Range(InputRange.Rows(FirstRow), InputRange.Rows(LastRow)).Select
     Else
         If currLine2 > currLine1 Then
-            Range(inputRange.Rows(FirstRow), inputRange.Rows(LastRow)).Columns(word).Select
+            Range(InputRange.Rows(FirstRow), InputRange.Rows(LastRow)).Columns(word).Select
         Else
-            inputRange.Rows(FirstRow).Columns(word).Select
+            InputRange.Rows(FirstRow).Columns(word).Select
         End If
     End If
 End Sub

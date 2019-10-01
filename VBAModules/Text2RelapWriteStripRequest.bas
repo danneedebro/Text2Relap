@@ -1,12 +1,6 @@
 Attribute VB_Name = "Text2RelapWriteStripRequest"
 Option Explicit
 
-Private Type Plotgroups
-    Channels As Collection
-    
-
-End Type
-
 Public Sub WriteStripRequest()
 ' Action: Writes a strip request file with optional decorators used by batch plot script THistPlot
 '
@@ -54,8 +48,8 @@ Public Sub WriteStripRequest()
     Dim sht As Worksheet
     Set sht = ThisWorkbook.ActiveSheet
     
-    Dim inputRange As Range
-    Set inputRange = sht.Range(sht.Cells(1, 1), sht.Cells(sht.Cells(sht.Rows.Count, "A").End(xlUp).Row, 5))
+    Dim InputRange As Range
+    Set InputRange = sht.Range(sht.Cells(1, 1), sht.Cells(sht.Cells(sht.Rows.Count, "A").End(xlUp).Row, 5))
     
     Dim i As Integer
     Dim stripRequestCard As Long
@@ -68,16 +62,16 @@ Public Sub WriteStripRequest()
     ts.WriteLine "100     strip fmtout"
     ts.WriteLine "0000103 0"
     
-    For i = 1 To inputRange.Rows.Count
+    For i = 1 To InputRange.Rows.Count
         
         ' Loop through all lines
-        Select Case LCase(inputRange(i, 1))
+        Select Case LCase(InputRange(i, 1))
             
             ' Inserts a strip request card
             Case "channels"
                 
                 Dim collectionToLoop As Collection
-                Select Case LCase(inputRange(i, 2))
+                Select Case LCase(InputRange(i, 2))
                     Case "mflowj", "velfj"
                         Set collectionToLoop = Junctions
                     Case "vlvstem"
@@ -92,7 +86,7 @@ Public Sub WriteStripRequest()
             
                 For Each plotnum In collectionToLoop
                     stripRequestCard = stripRequestCard + 1
-                    ts.WriteLine stripRequestCard & " " & inputRange(i, 2) & " " & plotnum
+                    ts.WriteLine stripRequestCard & " " & InputRange(i, 2) & " " & plotnum
                 Next plotnum
                 
             ' Input for plot request file decorators used by THistPlot below
@@ -106,40 +100,40 @@ Public Sub WriteStripRequest()
             
             ' XInterval XMin XMax
             Case "xint"
-                ts.WriteLine s.sprintf("*XInt: %f %f", inputRange(i, 2), inputRange(i, 3))
+                ts.WriteLine s.sprintf("*XInt: %f %f", InputRange(i, 2), InputRange(i, 3))
                 
             Case "yint"
-                ts.WriteLine s.sprintf("*YInt: %f %f", inputRange(i, 2), inputRange(i, 3))
+                ts.WriteLine s.sprintf("*YInt: %f %f", InputRange(i, 2), InputRange(i, 3))
                 
             Case "title"
-                ts.WriteLine s.sprintf("*Title: %s", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*Title: %s", InputRange(i, 2))
                 
             Case "ylabel"
-                ts.WriteLine s.sprintf("*YLabel: %s", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*YLabel: %s", InputRange(i, 2))
                 
             Case "xlabel"
-                ts.WriteLine s.sprintf("*XLabel: %s", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*XLabel: %s", InputRange(i, 2))
                 
             Case "yscale"
-                ts.WriteLine s.sprintf("*YScale: %f", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*YScale: %f", InputRange(i, 2))
                 
             Case "yoffset"
-                ts.WriteLine s.sprintf("*YOffset: %f", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*YOffset: %f", InputRange(i, 2))
                 
             Case "xscale"
-                ts.WriteLine s.sprintf("*XScale: %f", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*XScale: %f", InputRange(i, 2))
                 
             Case "xoffset"
-                ts.WriteLine s.sprintf("*XOffset: %f", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*XOffset: %f", InputRange(i, 2))
                 
             Case "yspanmin"
-                ts.WriteLine s.sprintf("*YSpanMin: %f", inputRange(i, 2))
+                ts.WriteLine s.sprintf("*YSpanMin: %f", InputRange(i, 2))
             
             Case "Curve"
-                ts.WriteLine s.sprintf("*Curve: %s %s", inputRange(i, 2), inputRange(i, 3))
+                ts.WriteLine s.sprintf("*Curve: %s %s", InputRange(i, 2), InputRange(i, 3))
             
             Case "labeldefault"
-                ts.WriteLine s.sprintf("*XYLabelDefaults: %s %s", inputRange(i, 2), inputRange(i, 3))
+                ts.WriteLine s.sprintf("*XYLabelDefaults: %s %s", InputRange(i, 2), InputRange(i, 3))
             
         End Select
     Next i
