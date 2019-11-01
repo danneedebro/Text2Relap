@@ -16,6 +16,21 @@ Public Type FCond
     FontColor As Long
 End Type
 
+Sub ResetFormatButton()
+' Action: Selects cells and runs macro 'ResetFormat'
+'
+    Dim sht As Worksheet
+    Set sht = ThisWorkbook.ActiveSheet
+    
+    sht.Range("A16:V700").Select
+    
+    ResetFormat
+    
+End Sub
+
+
+
+
 Sub ResetFormat()
 ' Action: Resets the format conditions
 '

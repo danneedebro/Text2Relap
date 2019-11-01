@@ -18,6 +18,7 @@ Public Sub WriteStripRequest()
     ' Construct collections with the plotnums of the volumes, junctions and valves of the system.
     ' Later used
     Dim VolumesFirstAndLast As New Collection, VolumesFirst As New Collection, Junctions As New Collection, Valves As New Collection, Pumps As New Collection
+    Dim Forces As New Collection
     Dim s As New ResourceSprintf
     
     Dim component As ComponentHydro
@@ -36,6 +37,18 @@ Public Sub WriteStripRequest()
             VolumesFirstAndLast.Add s.sprintf("%03d%02d0000", component.CCC, 1)
             VolumesFirstAndLast.Add s.sprintf("%03d%02d0000", component.CCC, component.Segments(component.Segments.Count).VolumeLast)
             VolumesFirst.Add s.sprintf("%03d%02d0000", component.CCC, 1)
+            
+            'Add forces
+            Dim segment As PropertiesHydroCompSegment
+            For Each segment In component.Segments
+                If segment.ForceNumber > 0 And segment.ForceNumber <= 9999 Then
+                    On Error Resume Next
+                    Forces.Add segment.ForceNumber, Key:=CStr(segment.ForceNumber)
+                    On Error GoTo 0
+                    
+                End If
+            Next segment
+            
         
         ElseIf component.Info.Family = SingleVolumeComponent Then
             VolumesFirstAndLast.Add s.sprintf("%03d010000", component.CCC)
@@ -69,9 +82,10 @@ Public Sub WriteStripRequest()
             
             ' Inserts a strip request card
             Case "channels"
-                
+                Dim plotalf As String
+                plotalf = LCase(InputRange(i, 2))
                 Dim collectionToLoop As Collection
-                Select Case LCase(InputRange(i, 2))
+                Select Case plotalf
                     Case "mflowj", "velfj"
                         Set collectionToLoop = Junctions
                     Case "vlvstem"
@@ -80,13 +94,16 @@ Public Sub WriteStripRequest()
                         Set collectionToLoop = VolumesFirstAndLast
                     Case "pmpvel"
                         Set collectionToLoop = Pumps
+                    Case "forces"
+                        plotalf = "cntrlvar"
+                        Set collectionToLoop = Forces
                     Case Else
                         Set collectionToLoop = New Collection
                 End Select
             
                 For Each plotnum In collectionToLoop
                     stripRequestCard = stripRequestCard + 1
-                    ts.WriteLine stripRequestCard & " " & InputRange(i, 2) & " " & plotnum
+                    ts.WriteLine stripRequestCard & " " & plotalf & " " & plotnum
                 Next plotnum
                 
             ' Input for plot request file decorators used by THistPlot below

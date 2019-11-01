@@ -343,6 +343,32 @@ Private Sub MakeForces()
                 forceMatrix(segment.ForceNumber).Add segment.JunctionFirst
                 forceMatrix(segment.ForceNumber).Add segment.JunctionLast
                 forceMatrix(segment.ForceNumber).Add segment.Dx
+                
+                ' If segment have no junctions (ends of pipes), find component that connects
+                ' to its last volume
+                If segment.JunctionLast <> segment.VolumeLast Then
+                    Dim connectingComponent As ComponentHydro
+                    For Each connectingComponent In Components.Subset(HydroComp)
+                        Dim connection As PropertiesHydroCompConnection
+                        For i = 1 To connectingComponent.Connections.Count
+                            Set connection = connectingComponent.Connections(i)
+
+                            If connection.CCC = component.CCC And connection.Volume = segment.VolumeLast And connection.Side = 2 Then
+                                forceMatrix(segment.ForceNumber).Add connectingComponent.CCC
+                                If connectingComponent.Info.MainType = pump Then
+                                    forceMatrix(segment.ForceNumber).Add i
+                                    forceMatrix(segment.ForceNumber).Add i
+                                Else
+                                    forceMatrix(segment.ForceNumber).Add 0
+                                    forceMatrix(segment.ForceNumber).Add 0
+                                End If
+                                forceMatrix(segment.ForceNumber).Add segment.Dx * (1 - (i - 1) * 2)  ' minus sign if connection 2
+                            End If
+                        
+                        Next i
+                    Next connectingComponent
+                End If
+                
             End If
         Next segment
         
